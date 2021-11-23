@@ -20,8 +20,6 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Private Variables
-
-    private ErrorHandler errorHandler;
     private CharacterController cc;
 
     private Vector3 playerVelocity;
@@ -38,20 +36,12 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Unity Methods
-    private void Awake()
-    {
-        errorHandler = GameObject.FindGameObjectWithTag("GameMechanics").GetComponent<ErrorHandler>();
 
-        if(errorHandler == null)
-            Debug.LogError("ERROR HANDLER IS MISSING");
-    }
     void Start()
     {
-        cc = GetComponent<CharacterController>();
-        playerCam = GetComponentInChildren<Camera>().transform;
+        VariablesAssignment();
 
-        if (cc == null && errorHandler)
-            errorHandler.ComponentIsMissing("Rigidbody", gameObject);
+        GetComponent<PlayerController>().enabled = ErrorHandling();
 
         currentHeight = cc.height;
     }
@@ -59,13 +49,14 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         //TODO: try to move all physics here as soon as you solve input problem
+        MovePlayer();
     }
 
     private void Update()
     {
-        MovePlayer();
         InputManager();
         Crouch();
+        Jump();
     }
 
     #endregion
@@ -74,10 +65,7 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
-        if (isJumping && isGrounded)
-        {
-            playerVelocity.y += Mathf.Sqrt(jumpForce * -3.0f * gravity);
-        }
+
 
         if (isGrounded && playerVelocity.y < 0)
         {
@@ -85,18 +73,26 @@ public class PlayerController : MonoBehaviour
         }
 
         Vector3 movement = Quaternion.Euler(0, playerCam.transform.eulerAngles.y, 0) * new Vector3(moveX, 0, moveY);
-
         movement = Vector3.ClampMagnitude(movement, 1);
-        cc.Move(movement * velocity * Time.deltaTime);
+
+        cc.Move(movement * velocity * cc.height * Time.deltaTime);
 
         playerVelocity.y += gravity * Time.deltaTime;
         cc.Move(playerVelocity * Time.deltaTime);
         isGrounded = cc.isGrounded;
     }
 
+    void Jump()
+    {
+        if (isJumping && isGrounded && !Input.GetButton("Crouch"))
+        {
+            playerVelocity.y += Mathf.Sqrt(jumpForce * -3.0f * gravity);
+        }
+    }
+
     void Crouch()
     {
-        if (Input.GetButton("Crouch"))
+        if (Input.GetButton("Crouch") && isGrounded)
             cc.height = Mathf.Lerp(cc.height, crouchHeight, crouchTime);
         else if(CheckHeight())
             cc.height = Mathf.Lerp(cc.height, currentHeight, crouchTime);
@@ -113,7 +109,7 @@ public class PlayerController : MonoBehaviour
     {
 
         RaycastHit hit;
-        // Does the ray intersect any objects excluding the player layer
+
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.up), out hit, currentHeight))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * hit.distance, Color.yellow);
@@ -124,6 +120,30 @@ public class PlayerController : MonoBehaviour
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * 1000, Color.white);
             Debug.Log("Did not Hit");
+        }
+        return true;
+    }
+    #endregion
+
+    #region Technical Methods
+
+    void VariablesAssignment()
+    {
+        cc = GetComponent<CharacterController>();
+        playerCam = GetComponentInChildren<Camera>().transform;
+    }
+
+    bool ErrorHandling()
+    {
+        if (cc == null)
+        {
+            ErrorHandler.Instance.ComponentIsMissing("Character Controller", gameObject);
+            return false;
+        }
+        if (playerCam == null)
+        {
+            ErrorHandler.Instance.GameObjectIsMissing("Camera");
+            return false;
         }
         return true;
     }

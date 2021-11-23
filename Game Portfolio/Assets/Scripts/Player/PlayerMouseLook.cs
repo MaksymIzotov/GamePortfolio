@@ -6,6 +6,7 @@ public class PlayerMouseLook : MonoBehaviour
 {
     #region Public Variables
 
+    [Tooltip("Sensitivity of the mouse")]
     public float sensitivity;
 
     #endregion
@@ -28,7 +29,9 @@ public class PlayerMouseLook : MonoBehaviour
 
     void Start()
     {
-        playerCam = GetComponentInChildren<Camera>().transform;
+        VariablesAssignment();
+
+        GetComponent<PlayerMouseLook>().enabled = ErrorHandling();
     }
 
     void Update()
@@ -52,6 +55,25 @@ public class PlayerMouseLook : MonoBehaviour
 
         playerCam.localRotation = Quaternion.Euler(xRotation,desiredX, 0);
         gameObject.transform.localRotation = Quaternion.Euler(0, desiredX, 0);
+    }
+
+    #endregion
+
+    #region Technical Methods
+
+    void VariablesAssignment()
+    {
+        playerCam = GetComponentInChildren<Camera>().transform;
+    }
+
+    bool ErrorHandling()
+    {
+        if (playerCam == null)
+        {
+            ErrorHandler.Instance.GameObjectIsMissing("Camera");
+            return false;
+        }
+        return true;
     }
 
     #endregion
