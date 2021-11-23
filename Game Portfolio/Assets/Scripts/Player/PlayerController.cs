@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (isJumping && isGrounded && !Input.GetButton("Crouch"))
+        if (isJumping && isGrounded)
         {
             playerVelocity.y += Mathf.Sqrt(jumpForce * -3.0f * gravity);
         }
@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
 
     void Crouch()
     {
-        if (Input.GetButton("Crouch") && isGrounded)
+        if (Input.GetButton("Crouch"))
             cc.height = Mathf.Lerp(cc.height, crouchHeight, crouchTime);
         else if(CheckHeight())
             cc.height = Mathf.Lerp(cc.height, currentHeight, crouchTime);
