@@ -32,6 +32,8 @@ public class PlayerMouseLook : MonoBehaviour
         VariablesAssignment();
 
         GetComponent<PlayerMouseLook>().enabled = ErrorHandling();
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()

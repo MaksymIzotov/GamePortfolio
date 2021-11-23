@@ -401,6 +401,7 @@ MonoBehaviour:
   crouchHeight: 1.5
   crouchTime: 0.1
   speedChangingStep: 0.1
+  airControlDivider: 40
 --- !u!114 &646643978
 MonoBehaviour:
   m_ObjectHideFlags: 0

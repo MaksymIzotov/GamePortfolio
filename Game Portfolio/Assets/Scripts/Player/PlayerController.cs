@@ -28,11 +28,11 @@ public class PlayerController : MonoBehaviour
     private CharacterController cc;
 
     private Vector3 playerVelocity;
-    private Vector3 airVelocity;
     private Vector3 movement;
     private bool isGrounded;
 
-    private float speed;
+    [HideInInspector]
+    public float speed;
 
     private float currentHeight;
 
@@ -85,10 +85,7 @@ public class PlayerController : MonoBehaviour
 
         SpeedHandle();
 
-        if (isGrounded)
-            cc.Move(movement * speed * cc.height * Time.deltaTime);
-        else
-            cc.Move(airVelocity * speed * cc.height * Time.deltaTime);
+        cc.Move(movement * speed * cc.height * Time.deltaTime);
 
         playerVelocity.y += gravity * Time.deltaTime;
         cc.Move(playerVelocity * Time.deltaTime);
@@ -116,7 +113,6 @@ public class PlayerController : MonoBehaviour
         if (isJumping && isGrounded)
         {
             playerVelocity.y += Mathf.Sqrt(jumpForce * -3.0f * gravity);
-            airVelocity = movement;
         }
     }
 
