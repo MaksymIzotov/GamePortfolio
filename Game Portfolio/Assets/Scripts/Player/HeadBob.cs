@@ -2,19 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class HeadBob : MonoBehaviour
 {
+    CharacterController cc;
 
-
-    GameObject player;
+    public Transform camera;
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        cc = GetComponent<CharacterController>();
     }
 
     void Update()
     {
-        
+        InAirCameraMovement();
+    }
+
+    void InAirCameraMovement()
+    {
+        camera.rotation = new Quaternion(cc.velocity.y,0,0,0);
     }
 }

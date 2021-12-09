@@ -21,7 +21,11 @@ public class PlayerMouseLook : MonoBehaviour
     private float xRotation;
     private Vector3 rotation;
 
+    private float headJump = 0;
+
     private int sensMult = 10;
+
+    CharacterController cc;
 
     #endregion
 
@@ -55,7 +59,9 @@ public class PlayerMouseLook : MonoBehaviour
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        playerCam.localRotation = Quaternion.Euler(xRotation,desiredX, 0);
+        headJump = Mathf.Clamp(Mathf.Lerp(headJump, cc.velocity.y,0.05f),-10,10);
+
+        playerCam.localRotation = Quaternion.Euler(xRotation + headJump, desiredX, 0);
         gameObject.transform.localRotation = Quaternion.Euler(0, desiredX, 0);
     }
 
@@ -66,6 +72,7 @@ public class PlayerMouseLook : MonoBehaviour
     void VariablesAssignment()
     {
         playerCam = GetComponentInChildren<Camera>().transform;
+        cc = GetComponent<CharacterController>();
     }
 
     bool ErrorHandling()
