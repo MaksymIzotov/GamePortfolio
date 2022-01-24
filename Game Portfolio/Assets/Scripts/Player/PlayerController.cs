@@ -29,7 +29,6 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 playerVelocity;
     private Vector3 movement;
-    private bool isGrounded;
 
     [HideInInspector]
     public float speed;
@@ -39,7 +38,9 @@ public class PlayerController : MonoBehaviour
     private float moveX;
     private float moveY;
     private bool isJumping;
-    private bool isRunning;
+    [HideInInspector]
+    public bool isRunning;
+    private bool isGrounded;
 
     private Transform playerCam;
 
