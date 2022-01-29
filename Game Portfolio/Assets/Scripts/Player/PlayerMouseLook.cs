@@ -53,7 +53,7 @@ public class PlayerMouseLook : MonoBehaviour
         mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.fixedDeltaTime * sensMult;
         mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.fixedDeltaTime * sensMult;
 
-        rotation = playerCam.transform.localRotation.eulerAngles;
+        rotation = transform.localRotation.eulerAngles;
         desiredX = rotation.y + mouseX;
 
         xRotation -= mouseY;
@@ -61,9 +61,11 @@ public class PlayerMouseLook : MonoBehaviour
 
         headJump = Mathf.Clamp(Mathf.Lerp(headJump, cc.velocity.y,0.05f),-10,10);
 
-        playerCam.localRotation = Quaternion.Euler(xRotation + headJump, desiredX, 0);
+        playerCam.localRotation = Quaternion.Euler(xRotation + headJump, 0, 0);
         gameObject.transform.localRotation = Quaternion.Euler(0, desiredX, 0);
     }
+
+
 
     #endregion
 
