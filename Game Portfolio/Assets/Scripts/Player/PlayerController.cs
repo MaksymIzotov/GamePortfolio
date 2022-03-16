@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 playerVelocity;
     private Vector3 movement;
 
-    [HideInInspector]
+    //[HideInInspector]
     public float speed;
 
     private float currentHeight;
@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
     private float moveX;
     private float moveY;
     private bool isJumping;
+    private bool isCrouching;
     [HideInInspector]
     public bool isRunning;
     private bool isGrounded;
@@ -55,7 +56,7 @@ public class PlayerController : MonoBehaviour
         GetComponent<PlayerController>().enabled = ErrorHandling();
 
         currentHeight = cc.height;
-        speed = walkSpeed;
+        speed = 0;
     }
 
     private void FixedUpdate()
@@ -65,7 +66,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        InputManager();
+        HandleInput();
         Crouch();
         Jump();
     }
@@ -77,9 +78,7 @@ public class PlayerController : MonoBehaviour
     void MovePlayer()
     {
         if (isGrounded && playerVelocity.y < 0)
-        {
             playerVelocity.y = 0f;
-        }
 
         movement = Quaternion.Euler(0, playerCam.transform.eulerAngles.y, 0) * new Vector3(moveX, 0, moveY);
         movement = Vector3.ClampMagnitude(movement, 1);
@@ -97,13 +96,13 @@ public class PlayerController : MonoBehaviour
     {
         if (isRunning)
             speed = Mathf.Lerp(speed, runSpeed, speedChangingStep / 3);
-        else
-            speed = Mathf.Lerp(speed, walkSpeed, speedChangingStep / 2);
+        else 
+            speed = Mathf.Lerp(speed, walkSpeed, speedChangingStep / 3);
     }
 
     void Crouch()
     {
-        if (Input.GetButton("Crouch"))
+        if (isCrouching)
             cc.height = Mathf.Lerp(cc.height, crouchHeight, crouchTime);
         else if (CheckHeight())
             cc.height = Mathf.Lerp(cc.height, currentHeight, crouchTime);
@@ -112,22 +111,32 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         if (isJumping && isGrounded)
-        {
             playerVelocity.y += Mathf.Sqrt(jumpForce * -3.0f * gravity);
-        }
     }
 
-    void InputManager()
+    void HandleInput()
     {
-        moveX = Input.GetAxis("Horizontal");
-        moveY = Input.GetAxis("Vertical");
-        isJumping = Input.GetKeyDown(KeyCode.Space);
-        isRunning = Input.GetKey(KeyCode.LeftShift);
+        if (Input.GetKey(InputManager.Instance.Forward))
+            moveY = 1;
+        if (Input.GetKey(InputManager.Instance.Backward))
+            moveY = -1;
+        if (Input.GetKey(InputManager.Instance.Forward) && Input.GetKey(InputManager.Instance.Backward) || !Input.GetKey(InputManager.Instance.Forward) && !Input.GetKey(InputManager.Instance.Backward))
+            moveY = 0;
+
+        if (Input.GetKey(InputManager.Instance.Right))
+            moveX = 1;
+        if (Input.GetKey(InputManager.Instance.Left))
+            moveX = -1;
+        if (Input.GetKey(InputManager.Instance.Left) && Input.GetKey(InputManager.Instance.Right) || !Input.GetKey(InputManager.Instance.Left) && !Input.GetKey(InputManager.Instance.Right))
+            moveX = 0;
+
+        isJumping = Input.GetKeyDown(InputManager.Instance.Jump);
+        isRunning = Input.GetKey(InputManager.Instance.Run);
+        isCrouching = Input.GetKey(InputManager.Instance.Crouch);
     }
 
     bool CheckHeight()
     {
-
         RaycastHit hit;
 
         if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y, transform.position.z + cc.radius), transform.TransformDirection(Vector3.up), out hit, currentHeight))
