@@ -803,9 +803,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92ddd91137088ac45b4a6bcc5dc01ba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAuto: 0
-  timeBetweenShoots: 0.5
-  bulletForceAmount: 100
+  isAuto: 1
+  timeBetweenShoots: 0.11
+  delayBeforeShots: 0.1
+  bulletForceAmount: 500
   cam: {fileID: 1357915418}
   bulletPrefab: {fileID: 4842632683503622991, guid: daa526ff8e0fc91419311a4d91a1a6ed, type: 3}
 --- !u!1 &1393606520

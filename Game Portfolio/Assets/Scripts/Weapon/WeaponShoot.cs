@@ -10,6 +10,8 @@ public class WeaponShoot : MonoBehaviour
     public bool isAuto = false;
     [Tooltip("Time between shoots if auto")]
     public float timeBetweenShoots = 1f;
+    [Tooltip("Amount of delay between shots if no auto")]
+    public float delayBeforeShots = 1f;
     [Tooltip("Speed of the bullet")]
     public float bulletForceAmount = 1f;
     [Tooltip("Camera to be shot from")]
@@ -22,6 +24,8 @@ public class WeaponShoot : MonoBehaviour
     #endregion
 
     #region Private Variables
+
+    private bool canShoot = true;
 
     #endregion
 
@@ -38,16 +42,17 @@ public class WeaponShoot : MonoBehaviour
 
     void HandleInput()
     {
-        if (Input.GetKeyDown(InputManager.Instance.Shoot))
+        if (isAuto)
         {
-            if (isAuto)
-                Shoot();
-            else
+            if (Input.GetKeyDown(InputManager.Instance.Shoot))
                 StartCoroutine(ShootAuto());
+            else if(Input.GetKeyUp(InputManager.Instance.Shoot))
+                StopAllCoroutines();
         }
         else
         {
-            StopAllCoroutines();
+            if (Input.GetKeyDown(InputManager.Instance.Shoot) && canShoot)
+                StartCoroutine(ShootOnce());
         }
     }
 
@@ -55,6 +60,15 @@ public class WeaponShoot : MonoBehaviour
     {
         GameObject bullet = Instantiate(bulletPrefab, cam.transform.position, cam.transform.rotation);
         bullet.GetComponent<Rigidbody>().AddForce(-transform.right * bulletForceAmount, ForceMode.Impulse);
+    }
+
+    IEnumerator ShootOnce()
+    {
+        canShoot = false;
+        Shoot();
+        yield return new WaitForSeconds(delayBeforeShots);
+
+        canShoot = true;
     }
 
     IEnumerator ShootAuto()
@@ -69,6 +83,7 @@ public class WeaponShoot : MonoBehaviour
     #endregion
 
     #region Technical Methods
+
 
 
     #endregion
