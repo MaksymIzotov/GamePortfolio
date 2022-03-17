@@ -10,8 +10,10 @@ public class WeaponCameraFollow : MonoBehaviour
     public float followSpeed = 1f;
     [Tooltip("Camera to be followed")]
     public GameObject cam;
-    [Tooltip("Weapon breathe amount")]
-    public float bobbingAmount = 0;
+    [Tooltip("Weapon breathe amount when hipfire")]
+    public float bobbingAmountAim = 0;
+    [Tooltip("Weapon breathe amount when aiming")]
+    public float bobbingAmountHip = 0;
 
     #endregion
 
@@ -20,6 +22,7 @@ public class WeaponCameraFollow : MonoBehaviour
     private float defaultPosY;
 
     private float timer;
+    private float moveY;
 
     private WeaponAiming wa;
 
@@ -34,6 +37,9 @@ public class WeaponCameraFollow : MonoBehaviour
 
     void Update()
     {
+        if (wa.isMoving) { timer = 0; return; }
+
+        HandleInput();
         BreatheMovement();
     }
 
@@ -43,15 +49,35 @@ public class WeaponCameraFollow : MonoBehaviour
 
     void BreatheMovement()
     {
-        if (wa.AimingState) { timer = 0; return; }
-
         timer += Time.deltaTime;
-        transform.localPosition = new Vector3(transform.localPosition.x, defaultPosY + Mathf.Sin(timer) * bobbingAmount, transform.localPosition.z);
+        transform.localPosition = new Vector3(transform.localPosition.x, defaultPosY + Mathf.Sin(timer) * moveY, transform.localPosition.z);
     }
 
     #endregion
 
     #region Technical Methods
+
+    void HandleInput()
+    {
+        if (Input.GetKeyDown(InputManager.Instance.Aim) || Input.GetKeyUp(InputManager.Instance.Aim)) { wa.isMoving = true; return; }
+
+        if (Input.GetKey(InputManager.Instance.Aim))
+            SetAimMovement();
+        else
+            SetHipMovement();
+    }
+
+    void SetAimMovement()
+    {
+        defaultPosY = wa.aimPosition.localPosition.y;
+        moveY = bobbingAmountAim;
+    }
+
+    void SetHipMovement()
+    {
+        defaultPosY = wa.hipPosition.localPosition.y;
+        moveY = bobbingAmountHip;
+    }
 
     void VariablesAssignment()
     {
@@ -62,7 +88,6 @@ public class WeaponCameraFollow : MonoBehaviour
         if (cam == null)          
             ErrorHandler.Instance.GameObjectIsMissing("Camera");
 
-        defaultPosY = transform.localPosition.y;
         timer = 0;
     }
 

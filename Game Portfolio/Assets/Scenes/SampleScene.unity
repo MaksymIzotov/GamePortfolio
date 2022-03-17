@@ -734,8 +734,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1382501273}
-  - component: {fileID: 1382501274}
   - component: {fileID: 1382501275}
+  - component: {fileID: 1382501274}
   m_Layer: 6
   m_Name: WeaponHolder
   m_TagString: Untagged
@@ -772,7 +772,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followSpeed: 1
   cam: {fileID: 1357915418}
-  bobbingAmount: 0.1
+  bobbingAmountAim: 0.03
+  bobbingAmountHip: 0.12
 --- !u!114 &1382501275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -785,9 +786,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22e3b0f1f99c3d34ea4d066e0ccdb444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aimSpeed: 15
+  aimSpeed: 25
   hipPosition: {fileID: 856301387}
   aimPosition: {fileID: 1693077199}
+  isMoving: 0
 --- !u!1 &1393606520
 GameObject:
   m_ObjectHideFlags: 0

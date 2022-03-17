@@ -12,10 +12,7 @@ public class WeaponAiming : MonoBehaviour
     private Transform target;
 
 
-    void Start()
-    {
-        
-    }
+    [HideInInspector] public bool isMoving = false;
 
     void Update()
     {
@@ -25,11 +22,12 @@ public class WeaponAiming : MonoBehaviour
 
     void UpdateLocation()
     {
-        if (Vector3.Distance(transform.position, target.position) > 0.001f)
-        {
-            float step = aimSpeed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, target.position, step);
-        }
+        if (!isMoving) { return; }
+
+        if (Vector3.Distance(transform.position, target.position) < 0.001f) { isMoving = false; return; }
+
+        float step = aimSpeed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, target.position, step);
     }
 
     void HandleInput()
@@ -38,7 +36,8 @@ public class WeaponAiming : MonoBehaviour
             target = aimPosition;
         else
             target = hipPosition;
-    }
 
-    public bool AimingState => Vector3.Distance(transform.position, hipPosition.position) < 0.001f ? false : true;
+        if (Input.GetKeyDown(InputManager.Instance.Aim) || Input.GetKeyUp(InputManager.Instance.Aim))
+            isMoving = true;
+    }
 }
