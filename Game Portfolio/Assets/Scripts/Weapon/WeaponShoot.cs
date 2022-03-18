@@ -5,9 +5,13 @@ using UnityEngine;
 public class WeaponShoot : MonoBehaviour
 {
     #region Public Variables
-
+    [Header("Shooting variables")]
     [Tooltip("Check this if gun uses auto fire mode")]
     public bool isAuto = false;
+    [Tooltip("Check this if gun is a shotgun")]
+    public bool isShotgun = false;
+    [Tooltip("Amonunt of pellets in one shot")]
+    public int pelletsAmount = 1;
     [Tooltip("Time between shoots if auto")]
     public float timeBetweenShoots = 1f;
     [Tooltip("Amount of delay between shots if no auto")]
@@ -16,6 +20,10 @@ public class WeaponShoot : MonoBehaviour
     public float bulletForceAmount = 1f;
     [Tooltip("Camera to be shot from")]
     public GameObject cam;
+
+    [Header("Bullet spreading")]
+    [Tooltip("Radius of shooting spread")]
+    public float radius = 1f;
 
 
     [Tooltip("Bullet prefab to be shot")]
@@ -30,6 +38,12 @@ public class WeaponShoot : MonoBehaviour
     #endregion
 
     #region Unity Methods
+
+    private void Start()
+    {
+        if (!AssignVariables())
+            Debug.LogError("SOMETHING WENT WRONG DURING START METHOD");
+    }
 
     private void Update()
     {
@@ -59,13 +73,14 @@ public class WeaponShoot : MonoBehaviour
     void Shoot()
     {
         GameObject bullet = Instantiate(bulletPrefab, cam.transform.position, cam.transform.rotation);
-        bullet.GetComponent<Rigidbody>().AddForce(-transform.right * bulletForceAmount, ForceMode.Impulse);
+        bullet.GetComponent<Rigidbody>().AddForce((transform.right - new Vector3(Random.Range(-radius,radius), Random.Range(-radius, radius), Random.Range(-radius, radius))*0.5f) * bulletForceAmount, ForceMode.Impulse); ;
     }
 
     IEnumerator ShootOnce()
     {
         canShoot = false;
-        Shoot();
+
+        ShotgunCheck();
         yield return new WaitForSeconds(delayBeforeShots);
 
         canShoot = true;
@@ -75,8 +90,23 @@ public class WeaponShoot : MonoBehaviour
     {
         while (Input.GetKey(InputManager.Instance.Shoot))
         {
-            Shoot();
+            ShotgunCheck();
             yield return new WaitForSeconds(timeBetweenShoots);
+        }
+    }
+
+    void ShotgunCheck()
+    {
+        if (!isShotgun)
+        {
+            Shoot();
+        }
+        else
+        {
+            for (int i = 0; i < pelletsAmount; i++)
+            {
+                Shoot();
+            }
         }
     }
 
@@ -84,7 +114,15 @@ public class WeaponShoot : MonoBehaviour
 
     #region Technical Methods
 
+    bool AssignVariables()
+    {
+        cam = GameObject.Find("PlayerCamera");
 
+        if (cam == null)
+            return false;
+
+        return true;
+    }
 
     #endregion
 }

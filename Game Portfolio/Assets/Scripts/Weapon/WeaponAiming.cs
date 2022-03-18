@@ -14,6 +14,11 @@ public class WeaponAiming : MonoBehaviour
 
     [HideInInspector] public bool isMoving = false;
 
+    private void Start()
+    {
+        AssignVariables();
+    }
+
     void Update()
     {
         HandleInput();
@@ -39,5 +44,11 @@ public class WeaponAiming : MonoBehaviour
 
         if (Input.GetKeyDown(InputManager.Instance.Aim) || Input.GetKeyUp(InputManager.Instance.Aim))
             isMoving = true;
+    }
+
+    void AssignVariables()
+    {
+        hipPosition = GameObject.Find("hipPosition").transform;
+        aimPosition = GameObject.Find("aimPosition").transform;
     }
 }

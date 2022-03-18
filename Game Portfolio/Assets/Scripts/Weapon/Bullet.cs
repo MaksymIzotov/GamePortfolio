@@ -12,7 +12,19 @@ public class Bullet : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log(collision.gameObject.name);
+
+        CreateHitPoint();
+
         Destroy(gameObject);
+    }
+
+    void CreateHitPoint()
+    {
+        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        cube.transform.position = transform.position;
+        cube.transform.localScale = transform.localScale;
+        cube.GetComponent<BoxCollider>().enabled = false;
+        Destroy(cube, 5);
     }
 
     private void Update()
