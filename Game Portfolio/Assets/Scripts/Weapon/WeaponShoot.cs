@@ -73,7 +73,7 @@ public class WeaponShoot : MonoBehaviour
     void Shoot()
     {
         GameObject bullet = Instantiate(bulletPrefab, cam.transform.position, cam.transform.rotation);
-        bullet.GetComponent<Rigidbody>().AddForce((transform.right - new Vector3(Random.Range(-radius,radius), Random.Range(-radius, radius), Random.Range(-radius, radius))*0.5f) * bulletForceAmount, ForceMode.Impulse); ;
+        bullet.GetComponent<Rigidbody>().AddForce((transform.forward - new Vector3(Random.Range(-radius,radius), Random.Range(-radius, radius), Random.Range(-radius, radius))*0.5f) * bulletForceAmount, ForceMode.Impulse); ;
     }
 
     IEnumerator ShootOnce()

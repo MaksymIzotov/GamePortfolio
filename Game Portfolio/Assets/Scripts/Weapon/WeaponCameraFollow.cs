@@ -8,8 +8,8 @@ public class WeaponCameraFollow : MonoBehaviour
 
     [Tooltip("Speed of weapon following the camera")]
     public float followSpeed = 1f;
-    [Tooltip("Camera to be followed")]
-    public GameObject cam;
+    //[Tooltip("Camera to be followed")]
+    //public GameObject cam;
     [Tooltip("Weapon breathe amount when hipfire")]
     public float bobbingAmountAim = 0;
     [Tooltip("Weapon breathe amount when aiming")]
@@ -85,8 +85,8 @@ public class WeaponCameraFollow : MonoBehaviour
         if(wa == null)
             ErrorHandler.Instance.GameObjectIsMissing("Weapon Aiming Component");
 
-        if (cam == null)          
-            ErrorHandler.Instance.GameObjectIsMissing("Camera");
+        //if (cam == null)          
+            //ErrorHandler.Instance.GameObjectIsMissing("Camera");
 
         timer = 0;
     }
