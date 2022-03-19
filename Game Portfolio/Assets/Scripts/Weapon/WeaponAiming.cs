@@ -6,8 +6,8 @@ public class WeaponAiming : MonoBehaviour
 {
     public float aimSpeed;
 
-    public Transform hipPosition;
-    public Transform aimPosition;
+    [HideInInspector] public Transform hipPosition;
+    [HideInInspector] public Transform aimPosition;
 
     private Transform target;
 
