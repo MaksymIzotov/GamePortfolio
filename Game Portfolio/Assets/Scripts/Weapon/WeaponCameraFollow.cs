@@ -8,12 +8,12 @@ public class WeaponCameraFollow : MonoBehaviour
 
     [Tooltip("Speed of weapon following the camera")]
     public float followSpeed = 1f;
-    //[Tooltip("Camera to be followed")]
-    //public GameObject cam;
     [Tooltip("Weapon breathe amount when hipfire")]
     public float bobbingAmountAim = 0;
     [Tooltip("Weapon breathe amount when aiming")]
     public float bobbingAmountHip = 0;
+    [Tooltip("Amount of weapon sway to be applied")]
+    public float swayAmount = 0;
 
     #endregion
 
@@ -24,7 +24,12 @@ public class WeaponCameraFollow : MonoBehaviour
     private float timer;
     private float moveY;
 
+    private GameObject cam;
+    private float mouseX;
+    private float mouseY;
+
     private WeaponAiming wa;
+    private PlayerMouseLook mouseSettings;
 
     #endregion
 
@@ -37,6 +42,8 @@ public class WeaponCameraFollow : MonoBehaviour
 
     void Update()
     {
+        WeaponSway();
+
         if (wa.isMoving) { timer = 0; return; }
 
         HandleInput();
@@ -51,6 +58,13 @@ public class WeaponCameraFollow : MonoBehaviour
     {
         timer += Time.deltaTime;
         transform.localPosition = new Vector3(transform.localPosition.x, defaultPosY + Mathf.Sin(timer) * moveY, transform.localPosition.z);
+    }
+
+    void WeaponSway()
+    {
+        mouseX = Input.GetAxis("Mouse X") * mouseSettings.sensitivity * Time.fixedDeltaTime * swayAmount;
+        mouseY = Input.GetAxis("Mouse Y") * mouseSettings.sensitivity * Time.fixedDeltaTime * swayAmount;
+        transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(new Vector3(Mathf.Clamp(-mouseY * 5, -45, 45), Mathf.Clamp(mouseX * 5, -45, 45), 0)), 0.07f);
     }
 
     #endregion
@@ -82,11 +96,16 @@ public class WeaponCameraFollow : MonoBehaviour
     void VariablesAssignment()
     {
         wa = GetComponent<WeaponAiming>();
-        if(wa == null)
+        cam = GameObject.Find("PlayerCamera");
+        mouseSettings = GameObject.Find("Player").GetComponent<PlayerMouseLook>();
+        if(mouseSettings == null)
+            ErrorHandler.Instance.GameObjectIsMissing("Mouse look script on player");
+
+        if (wa == null)
             ErrorHandler.Instance.GameObjectIsMissing("Weapon Aiming Component");
 
-        //if (cam == null)          
-            //ErrorHandler.Instance.GameObjectIsMissing("Camera");
+        if (cam == null)          
+            ErrorHandler.Instance.GameObjectIsMissing("Camera");
 
         timer = 0;
     }

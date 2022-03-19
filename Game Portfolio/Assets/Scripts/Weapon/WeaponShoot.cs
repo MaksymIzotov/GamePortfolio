@@ -2,30 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(WeaponInfo))]
 public class WeaponShoot : MonoBehaviour
 {
     #region Public Variables
-    [Header("Shooting variables")]
-    [Tooltip("Check this if gun uses auto fire mode")]
-    public bool isAuto = false;
-    [Tooltip("Check this if gun is a shotgun")]
-    public bool isShotgun = false;
-    [Tooltip("Amonunt of pellets in one shot")]
-    public int pelletsAmount = 1;
-    [Tooltip("Time between shoots if auto")]
-    public float timeBetweenShoots = 1f;
-    [Tooltip("Amount of delay between shots if no auto")]
-    public float delayBeforeShots = 1f;
-    [Tooltip("Speed of the bullet")]
-    public float bulletForceAmount = 1f;
     [Tooltip("Camera to be shot from")]
     public GameObject cam;
-
-    [Header("Bullet spreading")]
-    [Tooltip("Radius of shooting spread")]
-    public float radius = 1f;
-
-
     [Tooltip("Bullet prefab to be shot")]
     public GameObject bulletPrefab;
 
@@ -33,6 +15,7 @@ public class WeaponShoot : MonoBehaviour
 
     #region Private Variables
 
+    private WeaponInfo info;
     private bool canShoot = true;
 
     #endregion
@@ -56,7 +39,7 @@ public class WeaponShoot : MonoBehaviour
 
     void HandleInput()
     {
-        if (isAuto)
+        if (info.isAuto)
         {
             if (Input.GetKeyDown(InputManager.Instance.Shoot))
                 StartCoroutine(ShootAuto());
@@ -72,8 +55,10 @@ public class WeaponShoot : MonoBehaviour
 
     void Shoot()
     {
+        float r = info.radius;
+
         GameObject bullet = Instantiate(bulletPrefab, cam.transform.position, cam.transform.rotation);
-        bullet.GetComponent<Rigidbody>().AddForce((transform.forward - new Vector3(Random.Range(-radius,radius), Random.Range(-radius, radius), Random.Range(-radius, radius))*0.5f) * bulletForceAmount, ForceMode.Impulse); ;
+        bullet.GetComponent<Rigidbody>().AddForce((transform.forward - new Vector3(Random.Range(-r,r), Random.Range(-r, r), Random.Range(-r, r))*0.5f) * info.bulletForceAmount, ForceMode.Impulse);
     }
 
     IEnumerator ShootOnce()
@@ -81,7 +66,7 @@ public class WeaponShoot : MonoBehaviour
         canShoot = false;
 
         ShotgunCheck();
-        yield return new WaitForSeconds(delayBeforeShots);
+        yield return new WaitForSeconds(info.shootingDelay);
 
         canShoot = true;
     }
@@ -91,19 +76,19 @@ public class WeaponShoot : MonoBehaviour
         while (Input.GetKey(InputManager.Instance.Shoot))
         {
             ShotgunCheck();
-            yield return new WaitForSeconds(timeBetweenShoots);
+            yield return new WaitForSeconds(info.timeBetweenShoots);
         }
     }
 
     void ShotgunCheck()
     {
-        if (!isShotgun)
+        if (!info.isShotgun)
         {
             Shoot();
         }
         else
         {
-            for (int i = 0; i < pelletsAmount; i++)
+            for (int i = 0; i < info.pelletsAmount; i++)
             {
                 Shoot();
             }
@@ -117,6 +102,7 @@ public class WeaponShoot : MonoBehaviour
     bool AssignVariables()
     {
         cam = GameObject.Find("PlayerCamera");
+        info = GetComponent<WeaponInfo>();
 
         if (cam == null)
             return false;
