@@ -22,4 +22,12 @@ public class WeaponInfo : MonoBehaviour
     [Tooltip("Radius of shooting spread")]
     public float radius = 1f;
 
+    [Header("Recoil")]
+    [Tooltip("Recoil amount by X Axis")]
+    public float recoilX;
+    [Tooltip("Recoil amount by Y Axis")]
+    public float recoilY;
+    [Tooltip("Recoil amount by Z Axis")]
+    public float recoilZ;
+
 }

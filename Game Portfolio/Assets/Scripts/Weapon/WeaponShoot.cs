@@ -16,6 +16,7 @@ public class WeaponShoot : MonoBehaviour
     #region Private Variables
 
     private WeaponInfo info;
+    private WeaponRecoil recoil;
     private bool canShoot = true;
 
     #endregion
@@ -59,6 +60,8 @@ public class WeaponShoot : MonoBehaviour
 
         GameObject bullet = Instantiate(bulletPrefab, cam.transform.position, cam.transform.rotation);
         bullet.GetComponent<Rigidbody>().AddForce((transform.forward - new Vector3(Random.Range(-r,r), Random.Range(-r, r), Random.Range(-r, r))*0.5f) * info.bulletForceAmount, ForceMode.Impulse);
+
+        recoil.AddRecoil(info.recoilX, info.recoilY, info.recoilZ);
     }
 
     IEnumerator ShootOnce()
@@ -103,6 +106,7 @@ public class WeaponShoot : MonoBehaviour
     {
         cam = GameObject.Find("PlayerCamera");
         info = GetComponent<WeaponInfo>();
+        recoil = GameObject.Find("CameraRecoil").GetComponent<WeaponRecoil>();
 
         if (cam == null)
             return false;

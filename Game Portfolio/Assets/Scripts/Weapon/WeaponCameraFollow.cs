@@ -83,13 +83,13 @@ public class WeaponCameraFollow : MonoBehaviour
 
     void SetAimMovement()
     {
-        defaultPosY = wa.aimPosition.localPosition.y;
+        defaultPosY = wa.aimPosition.y;
         moveY = bobbingAmountAim;
     }
 
     void SetHipMovement()
     {
-        defaultPosY = wa.hipPosition.localPosition.y;
+        defaultPosY = wa.hipPosition.y;
         moveY = bobbingAmountHip;
     }
 
@@ -98,6 +98,7 @@ public class WeaponCameraFollow : MonoBehaviour
         wa = GetComponent<WeaponAiming>();
         cam = GameObject.Find("PlayerCamera");
         mouseSettings = GameObject.Find("Player").GetComponent<PlayerMouseLook>();
+
         if(mouseSettings == null)
             ErrorHandler.Instance.GameObjectIsMissing("Mouse look script on player");
 
