@@ -30,6 +30,7 @@ public class WeaponCameraFollow : MonoBehaviour
 
     private WeaponAiming wa;
     private PlayerMouseLook mouseSettings;
+    private WeaponInfo info;
 
     #endregion
 
@@ -52,7 +53,7 @@ public class WeaponCameraFollow : MonoBehaviour
 
     #endregion
 
-    #region Created Methods
+    #region User Methods
 
     void BreatheMovement()
     {
@@ -73,6 +74,8 @@ public class WeaponCameraFollow : MonoBehaviour
 
     void HandleInput()
     {
+        if (info.weaponState == WeaponInfo.State.RELOAD) { SetHipMovement(); return; }
+
         if (Input.GetKeyDown(InputManager.Instance.Aim) || Input.GetKeyUp(InputManager.Instance.Aim)) { wa.isMoving = true; return; }
 
         if (Input.GetKey(InputManager.Instance.Aim))
@@ -98,8 +101,12 @@ public class WeaponCameraFollow : MonoBehaviour
         wa = GetComponent<WeaponAiming>();
         cam = GameObject.Find("PlayerCamera");
         mouseSettings = GameObject.Find("Player").GetComponent<PlayerMouseLook>();
+        info = GetComponent<WeaponInfo>();
 
-        if(mouseSettings == null)
+        if (info == null)
+            ErrorHandler.Instance.GameObjectIsMissing("Weapon Info Script");
+
+        if (mouseSettings == null)
             ErrorHandler.Instance.GameObjectIsMissing("Mouse look script on player");
 
         if (wa == null)

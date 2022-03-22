@@ -17,6 +17,7 @@ public class InputManager : MonoBehaviour
 
     [HideInInspector] public KeyCode Shoot;
     [HideInInspector] public KeyCode Aim;
+    [HideInInspector] public KeyCode Reload;
 
     private void Awake()
     {
@@ -41,5 +42,6 @@ public class InputManager : MonoBehaviour
 
         Shoot = KeyCode.Mouse0;
         Aim = KeyCode.Mouse1;
+        Reload = KeyCode.R;
     }
 }

@@ -11,8 +11,15 @@ public class WeaponAiming : MonoBehaviour
 
     private Vector3 target;
 
+    private WeaponInfo info;
 
     [HideInInspector] public bool isMoving = false;
+
+    private void Start()
+    {
+        info = GetComponent<WeaponInfo>();
+    }
+
     void Update()
     {
         HandleInput();
@@ -31,6 +38,13 @@ public class WeaponAiming : MonoBehaviour
 
     void HandleInput()
     {
+        if(info.weaponState == WeaponInfo.State.RELOAD)
+        {
+            target = hipPosition;
+            isMoving = true;
+            return;
+        }
+
         if (Input.GetKey(InputManager.Instance.Aim))
             target = aimPosition;
         else
@@ -38,5 +52,10 @@ public class WeaponAiming : MonoBehaviour
 
         if (Input.GetKeyDown(InputManager.Instance.Aim) || Input.GetKeyUp(InputManager.Instance.Aim))
             isMoving = true;
+    }
+
+    public void AfterReloadMovingState()
+    {
+        isMoving = true;
     }
 }

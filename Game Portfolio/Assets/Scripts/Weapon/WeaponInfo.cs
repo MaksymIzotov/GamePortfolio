@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class WeaponInfo : MonoBehaviour
 {
+    public enum State{
+        IDLE = 0,
+        RUN = 1,
+        RELOAD = 2,
+        PICKUP = 3
+    }
+    [HideInInspector] public State weaponState;
+
     [Header("Shooting variables")]
     [Tooltip("Check this if gun uses auto fire mode")]
     public bool isAuto = false;
@@ -29,5 +37,13 @@ public class WeaponInfo : MonoBehaviour
     public float recoilY;
     [Tooltip("Recoil amount by Z Axis")]
     public float recoilZ;
+
+    [Header("Ammo")]
+    [Tooltip("Magazine capacity")]
+    public int maxAmmo;
+    [Tooltip("Reload time")]
+    public float reloadTime;
+
+    [HideInInspector] public int currentAmmo;
 
 }

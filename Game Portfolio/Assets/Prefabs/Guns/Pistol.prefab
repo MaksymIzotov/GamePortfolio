@@ -13,6 +13,9 @@ GameObject:
   - component: {fileID: 537118818759456211}
   - component: {fileID: 537118818759456210}
   - component: {fileID: 537118818759456209}
+  - component: {fileID: 7270725100190902120}
+  - component: {fileID: 5879185891597738614}
+  - component: {fileID: 3769754978008563404}
   m_Layer: 6
   m_Name: Pistol
   m_TagString: Untagged
@@ -47,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9747c4f287d3a4b488f925434643309e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponState: 0
   isAuto: 0
   isShotgun: 0
   pelletsAmount: 10
@@ -57,6 +61,9 @@ MonoBehaviour:
   recoilX: -2
   recoilY: 2
   recoilZ: 0.35
+  maxAmmo: 15
+  reloadTime: 1.5
+  currentAmmo: 0
 --- !u!114 &537118818759456211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,6 +110,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
   bulletPrefab: {fileID: 4842632683503622991, guid: daa526ff8e0fc91419311a4d91a1a6ed, type: 3}
+--- !u!95 &7270725100190902120
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 537118818759456215}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5879185891597738614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 537118818759456215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 204f07a410c0cf444a4bf4656014a314, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3769754978008563404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 537118818759456215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53a9050d0b975264a966e258a4a9b695, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &537118819547440539
 PrefabInstance:
   m_ObjectHideFlags: 0

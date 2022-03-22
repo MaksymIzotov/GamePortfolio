@@ -15,8 +15,10 @@ public class WeaponShoot : MonoBehaviour
 
     #region Private Variables
 
-    private WeaponInfo info;
     private WeaponRecoil recoil;
+    private WeaponAnimations weaponAnimation;
+    private WeaponStateController stateController;
+    private WeaponInfo info;
     private bool canShoot = true;
 
     #endregion
@@ -40,6 +42,11 @@ public class WeaponShoot : MonoBehaviour
 
     void HandleInput()
     {
+        if (Input.GetKeyDown(InputManager.Instance.Reload) && info.weaponState != WeaponInfo.State.RELOAD)
+            Reload();
+
+        if (!canShoot) { return; }
+
         if (info.isAuto)
         {
             if (Input.GetKeyDown(InputManager.Instance.Shoot))
@@ -49,7 +56,7 @@ public class WeaponShoot : MonoBehaviour
         }
         else
         {
-            if (Input.GetKeyDown(InputManager.Instance.Shoot) && canShoot)
+            if (Input.GetKeyDown(InputManager.Instance.Shoot))
                 StartCoroutine(ShootOnce());
         }
     }
@@ -58,10 +65,15 @@ public class WeaponShoot : MonoBehaviour
     {
         float r = info.radius;
 
+        //Spawn bullet
         GameObject bullet = Instantiate(bulletPrefab, cam.transform.position, cam.transform.rotation);
         bullet.GetComponent<Rigidbody>().AddForce((transform.forward - new Vector3(Random.Range(-r,r), Random.Range(-r, r), Random.Range(-r, r))*0.5f) * info.bulletForceAmount, ForceMode.Impulse);
 
+        //Add recoil
         recoil.AddRecoil(info.recoilX, info.recoilY, info.recoilZ);
+
+        //Play animation
+        weaponAnimation?.Shoot();
     }
 
     IEnumerator ShootOnce()
@@ -69,6 +81,11 @@ public class WeaponShoot : MonoBehaviour
         canShoot = false;
 
         ShotgunCheck();
+        info.currentAmmo -= 1;
+
+        if (info.currentAmmo <= 0)
+            Reload();
+
         yield return new WaitForSeconds(info.shootingDelay);
 
         canShoot = true;
@@ -79,6 +96,11 @@ public class WeaponShoot : MonoBehaviour
         while (Input.GetKey(InputManager.Instance.Shoot))
         {
             ShotgunCheck();
+            info.currentAmmo -= 1;
+
+            if (info.currentAmmo <= 0)
+                Reload();
+
             yield return new WaitForSeconds(info.timeBetweenShoots);
         }
     }
@@ -87,7 +109,7 @@ public class WeaponShoot : MonoBehaviour
     {
         if (!info.isShotgun)
         {
-            Shoot();
+            Shoot();  
         }
         else
         {
@@ -98,18 +120,42 @@ public class WeaponShoot : MonoBehaviour
         }
     }
 
+    private void Reload()
+    {
+        StopAllCoroutines();
+        stateController.SetState(WeaponInfo.State.RELOAD);
+        StartCoroutine(ReloadTimer());
+    }
+
+    IEnumerator ReloadTimer()
+    {
+        canShoot = false;
+        weaponAnimation.Reload();
+
+        info.currentAmmo = info.maxAmmo;
+
+        yield return new WaitForSeconds(info.reloadTime);
+        stateController.SetState(WeaponInfo.State.IDLE);
+        canShoot = true;
+    }
+
     #endregion
 
     #region Technical Methods
 
     bool AssignVariables()
     {
+
         cam = GameObject.Find("PlayerCamera");
-        info = GetComponent<WeaponInfo>();
         recoil = GameObject.Find("CameraRecoil").GetComponent<WeaponRecoil>();
+        weaponAnimation = GetComponent<WeaponAnimations>();
+        stateController = GetComponent<WeaponStateController>();
+        info = GetComponent<WeaponInfo>();
 
         if (cam == null)
             return false;
+
+        info.currentAmmo = info.maxAmmo;
 
         return true;
     }
