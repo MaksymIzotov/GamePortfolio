@@ -62,7 +62,8 @@ MonoBehaviour:
   recoilY: 2
   recoilZ: 0.35
   maxAmmo: 15
-  reloadTime: 1.5
+  reloadTime: 1
+  baseDamage: 12
   currentAmmo: 0
 --- !u!114 &537118818759456211
 MonoBehaviour:
@@ -92,9 +93,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fae91189cade50b40af602a473512aa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followSpeed: 1
-  bobbingAmountAim: 0.03
-  bobbingAmountHip: 0.12
   swayAmount: 5
 --- !u!114 &537118818759456209
 MonoBehaviour:
@@ -120,7 +118,7 @@ Animator:
   m_GameObject: {fileID: 537118818759456215}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 91333d8e1c881fc41819a5c40b20787a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -204,6 +202,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3542852092398272455, guid: 939e579f6103a9f4e84e7635bbd6c0e1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3542852092398272455, guid: 939e579f6103a9f4e84e7635bbd6c0e1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3542852092398272455, guid: 939e579f6103a9f4e84e7635bbd6c0e1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -516098083770646512, guid: 939e579f6103a9f4e84e7635bbd6c0e1, type: 3}
+      propertyPath: m_Name
+      value: mag
+      objectReference: {fileID: 0}
+    - target: {fileID: -516098083770646512, guid: 939e579f6103a9f4e84e7635bbd6c0e1, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 939e579f6103a9f4e84e7635bbd6c0e1, type: 3}
       propertyPath: m_Name
       value: pistol
@@ -211,6 +229,22 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 939e579f6103a9f4e84e7635bbd6c0e1, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083501151425157549, guid: 939e579f6103a9f4e84e7635bbd6c0e1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083501151425157549, guid: 939e579f6103a9f4e84e7635bbd6c0e1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083501151425157549, guid: 939e579f6103a9f4e84e7635bbd6c0e1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8416272007918961125, guid: 939e579f6103a9f4e84e7635bbd6c0e1, type: 3}
+      propertyPath: m_Name
+      value: pistol
       objectReference: {fileID: 0}
     - target: {fileID: 8416272007918961125, guid: 939e579f6103a9f4e84e7635bbd6c0e1, type: 3}
       propertyPath: m_Layer
