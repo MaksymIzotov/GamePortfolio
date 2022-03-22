@@ -33,6 +33,8 @@ public class WeaponShoot : MonoBehaviour
 
     private void Update()
     {
+        if (info.weaponState == WeaponInfo.State.PICKUP) { return; }
+
         HandleInput();
     }
 
@@ -68,6 +70,7 @@ public class WeaponShoot : MonoBehaviour
         //Spawn bullet
         GameObject bullet = Instantiate(bulletPrefab, cam.transform.position, cam.transform.rotation);
         bullet.GetComponent<Rigidbody>().AddForce((transform.forward - new Vector3(Random.Range(-r,r), Random.Range(-r, r), Random.Range(-r, r))*0.5f) * info.bulletForceAmount, ForceMode.Impulse);
+        bullet.GetComponent<Bullet>().damage = info.baseDamage;
 
         //Add recoil
         recoil.AddRecoil(info.recoilX, info.recoilY, info.recoilZ);

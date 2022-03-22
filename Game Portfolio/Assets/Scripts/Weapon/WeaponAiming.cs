@@ -22,6 +22,8 @@ public class WeaponAiming : MonoBehaviour
 
     void Update()
     {
+        if (info.weaponState == WeaponInfo.State.PICKUP) { return; }
+
         HandleInput();
         UpdateLocation();
     }
@@ -44,6 +46,7 @@ public class WeaponAiming : MonoBehaviour
             isMoving = true;
             return;
         }
+        Debug.Log(isMoving);
 
         if (Input.GetKey(InputManager.Instance.Aim))
             target = aimPosition;

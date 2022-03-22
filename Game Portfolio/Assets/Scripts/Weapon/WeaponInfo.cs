@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeaponInfo : MonoBehaviour
 {
-    public enum State{
+    public enum State {
         IDLE = 0,
         RUN = 1,
         RELOAD = 2,
@@ -43,6 +43,10 @@ public class WeaponInfo : MonoBehaviour
     public int maxAmmo;
     [Tooltip("Reload time")]
     public float reloadTime;
+
+    [Header("Damage")]
+    [Tooltip("Base weapon damage")]
+    public int baseDamage;
 
     [HideInInspector] public int currentAmmo;
 

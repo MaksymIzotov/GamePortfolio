@@ -22,10 +22,17 @@ public class WeaponAnimations : MonoBehaviour
         anim.Play("reload");
     }
 
+    public void Pickup()
+    {
+        anim.Play("pickup");
+    }
+
     private void AssignVariables(){
         anim = GetComponent<Animator>();
 
         if (anim == null)
             ErrorHandler.Instance.ComponentIsMissing("Animator", gameObject);
+
+        Pickup();
     }
 }

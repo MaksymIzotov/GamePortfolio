@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public int damage;
     private void Start()
     {
         Destroy(gameObject, 5);
@@ -11,7 +12,8 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.name);
+        if (collision.gameObject.tag == "Enemy")
+            collision.gameObject.GetComponent<EnemyHealth>().TakeDamage(damage);
 
         CreateHitPoint();
 

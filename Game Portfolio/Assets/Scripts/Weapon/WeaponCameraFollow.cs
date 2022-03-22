@@ -43,6 +43,12 @@ public class WeaponCameraFollow : MonoBehaviour
 
     void Update()
     {
+       
+
+        if (info.weaponState == WeaponInfo.State.PICKUP) { return; }
+
+        if (info.weaponState == WeaponInfo.State.RELOAD) { SetHipMovement(); return; }
+
         WeaponSway();
 
         if (wa.isMoving) { timer = 0; return; }
@@ -74,8 +80,6 @@ public class WeaponCameraFollow : MonoBehaviour
 
     void HandleInput()
     {
-        if (info.weaponState == WeaponInfo.State.RELOAD) { SetHipMovement(); return; }
-
         if (Input.GetKeyDown(InputManager.Instance.Aim) || Input.GetKeyUp(InputManager.Instance.Aim)) { wa.isMoving = true; return; }
 
         if (Input.GetKey(InputManager.Instance.Aim))
