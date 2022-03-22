@@ -5,13 +5,6 @@ using UnityEngine;
 public class WeaponCameraFollow : MonoBehaviour
 {
     #region Public Variables
-
-    [Tooltip("Speed of weapon following the camera")]
-    public float followSpeed = 1f;
-    [Tooltip("Weapon breathe amount when hipfire")]
-    public float bobbingAmountAim = 0;
-    [Tooltip("Weapon breathe amount when aiming")]
-    public float bobbingAmountHip = 0;
     [Tooltip("Amount of weapon sway to be applied")]
     public float swayAmount = 0;
 
@@ -19,18 +12,10 @@ public class WeaponCameraFollow : MonoBehaviour
 
     #region Private Variables
 
-    private float defaultPosY;
-
-    private float timer;
-    private float moveY;
-
-    private GameObject cam;
     private float mouseX;
     private float mouseY;
 
-    private WeaponAiming wa;
     private PlayerMouseLook mouseSettings;
-    private WeaponInfo info;
 
     #endregion
 
@@ -43,29 +28,12 @@ public class WeaponCameraFollow : MonoBehaviour
 
     void Update()
     {
-       
-
-        if (info.weaponState == WeaponInfo.State.PICKUP) { return; }
-
-        if (info.weaponState == WeaponInfo.State.RELOAD) { SetHipMovement(); return; }
-
         WeaponSway();
-
-        if (wa.isMoving) { timer = 0; return; }
-
-        HandleInput();
-        BreatheMovement();
     }
 
     #endregion
 
     #region User Methods
-
-    void BreatheMovement()
-    {
-        timer += Time.deltaTime;
-        transform.localPosition = new Vector3(transform.localPosition.x, defaultPosY + Mathf.Sin(timer) * moveY, transform.localPosition.z);
-    }
 
     void WeaponSway()
     {
@@ -78,48 +46,12 @@ public class WeaponCameraFollow : MonoBehaviour
 
     #region Technical Methods
 
-    void HandleInput()
-    {
-        if (Input.GetKeyDown(InputManager.Instance.Aim) || Input.GetKeyUp(InputManager.Instance.Aim)) { wa.isMoving = true; return; }
-
-        if (Input.GetKey(InputManager.Instance.Aim))
-            SetAimMovement();
-        else
-            SetHipMovement();
-    }
-
-    void SetAimMovement()
-    {
-        defaultPosY = wa.aimPosition.y;
-        moveY = bobbingAmountAim;
-    }
-
-    void SetHipMovement()
-    {
-        defaultPosY = wa.hipPosition.y;
-        moveY = bobbingAmountHip;
-    }
-
     void VariablesAssignment()
     {
-        wa = GetComponent<WeaponAiming>();
-        cam = GameObject.Find("PlayerCamera");
         mouseSettings = GameObject.Find("Player").GetComponent<PlayerMouseLook>();
-        info = GetComponent<WeaponInfo>();
-
-        if (info == null)
-            ErrorHandler.Instance.GameObjectIsMissing("Weapon Info Script");
 
         if (mouseSettings == null)
             ErrorHandler.Instance.GameObjectIsMissing("Mouse look script on player");
-
-        if (wa == null)
-            ErrorHandler.Instance.GameObjectIsMissing("Weapon Aiming Component");
-
-        if (cam == null)          
-            ErrorHandler.Instance.GameObjectIsMissing("Camera");
-
-        timer = 0;
     }
 
     #endregion

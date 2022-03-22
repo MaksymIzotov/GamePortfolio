@@ -44,10 +44,10 @@ public class WeaponShoot : MonoBehaviour
 
     void HandleInput()
     {
+        if (!canShoot) { return; }
+
         if (Input.GetKeyDown(InputManager.Instance.Reload) && info.weaponState != WeaponInfo.State.RELOAD)
             Reload();
-
-        if (!canShoot) { return; }
 
         if (info.isAuto)
         {
@@ -86,12 +86,12 @@ public class WeaponShoot : MonoBehaviour
         ShotgunCheck();
         info.currentAmmo -= 1;
 
-        if (info.currentAmmo <= 0)
-            Reload();
-
         yield return new WaitForSeconds(info.shootingDelay);
 
         canShoot = true;
+
+        if (info.currentAmmo <= 0)
+            Reload();
     }
 
     IEnumerator ShootAuto()
