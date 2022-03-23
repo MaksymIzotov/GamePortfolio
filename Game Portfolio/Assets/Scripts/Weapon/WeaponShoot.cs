@@ -47,7 +47,8 @@ public class WeaponShoot : MonoBehaviour
         if (!canShoot) { return; }
 
         if (Input.GetKeyDown(InputManager.Instance.Reload) && info.weaponState != WeaponInfo.State.RELOAD)
-            Reload();
+            if (info.currentAmmo < info.maxAmmo)
+                Reload();
 
         if (info.isAuto)
         {

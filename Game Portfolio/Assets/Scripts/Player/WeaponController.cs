@@ -56,7 +56,7 @@ public class WeaponController : MonoBehaviour
 
         currentItem = index;
 
-        if (inventory[currentItem] == null) { return; }
+        if (inventory[currentItem] == null) { UIUpdater.Instance.UpdateAmmoText(0); return; }
 
         itemInHands = Instantiate(inventory[currentItem], itemParent); //Pickup item
 
@@ -93,5 +93,6 @@ public class WeaponController : MonoBehaviour
 
         GameObject go = Instantiate(groundItems[index], itemParent.position, itemParent.rotation);
         go.GetComponent<Rigidbody>().AddForce(go.transform.forward * dropForce, ForceMode.Impulse);
+        go.GetComponent<Rigidbody>().AddTorque(new Vector3(Random.Range(-1f,1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * dropForce/2, ForceMode.Impulse);
     }
 }

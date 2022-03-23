@@ -782,7 +782,7 @@ MonoBehaviour:
   - {fileID: 2812964674196902316, guid: 9dc84a8e4099a8c4496eb679a7cd4af0, type: 3}
   - {fileID: 6059393682576627463, guid: 5469eff7251f0ed488435656718e5db2, type: 3}
   itemParent: {fileID: 1357915419}
-  dropForce: 5
+  dropForce: 10
 --- !u!114 &646643981
 MonoBehaviour:
   m_ObjectHideFlags: 0
