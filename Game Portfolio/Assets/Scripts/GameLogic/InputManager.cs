@@ -20,6 +20,7 @@ public class InputManager : MonoBehaviour
     [HideInInspector] public KeyCode Reload;
 
     [HideInInspector] public KeyCode Pickup;
+    [HideInInspector] public KeyCode Drop;
 
     private void Awake()
     {
@@ -47,5 +48,6 @@ public class InputManager : MonoBehaviour
         Reload = KeyCode.R;
 
         Pickup = KeyCode.E;
+        Drop = KeyCode.G;
     }
 }

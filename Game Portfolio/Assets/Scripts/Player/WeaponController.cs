@@ -5,7 +5,9 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour
 {
     public GameObject[] items;
+    public GameObject[] groundItems;
     public Transform itemParent;
+    public float dropForce;
 
     private int currentItem;
 
@@ -19,7 +21,7 @@ public class WeaponController : MonoBehaviour
         inventory = new GameObject[10];
     }
     private void Update()
-    { 
+    {
         if(Input.GetKeyDown(KeyCode.Alpha1))
             ChangeWeapon(0, false);
         if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -40,6 +42,9 @@ public class WeaponController : MonoBehaviour
             ChangeWeapon(8, false);
         if (Input.GetKeyDown(KeyCode.Alpha0))
             ChangeWeapon(9, false);
+
+        if (Input.GetKeyDown(InputManager.Instance.Drop))
+            DropItem();
     }
 
     private void ChangeWeapon(int index, bool isPicked)
@@ -75,5 +80,18 @@ public class WeaponController : MonoBehaviour
 
         Debug.Log("No space in inventory");
         return false;
+    }
+
+    private void DropItem()
+    {
+        if (itemInHands == null) { return; }
+
+        int index = itemInHands.GetComponent<ItemsInfo>().index;
+
+        GameobjectDestroyer.Instance.DestroyGO(itemInHands);
+        inventory[currentItem] = null;
+
+        GameObject go = Instantiate(groundItems[index], itemParent.position, itemParent.rotation);
+        go.GetComponent<Rigidbody>().AddForce(go.transform.forward * dropForce, ForceMode.Impulse);
     }
 }

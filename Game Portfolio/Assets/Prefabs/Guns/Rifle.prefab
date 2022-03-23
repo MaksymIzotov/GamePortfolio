@@ -129,6 +129,7 @@ GameObject:
   - component: {fileID: 5098744007853540305}
   - component: {fileID: 1982879780527514792}
   - component: {fileID: 1648429765}
+  - component: {fileID: 2479049720652105989}
   m_Layer: 6
   m_Name: Rifle
   m_TagString: Untagged
@@ -232,9 +233,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fae91189cade50b40af602a473512aa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followSpeed: 1
-  bobbingAmountAim: 0.03
-  bobbingAmountHip: 0.12
   swayAmount: 5
 --- !u!95 &1982879780527514792
 Animator:
@@ -267,6 +265,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53a9050d0b975264a966e258a4a9b695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2479049720652105989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5098744007853540319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50e896ae00fdf7c49b8bf29e561e7325, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 1
 --- !u!1 &5333116797716826522
 GameObject:
   m_ObjectHideFlags: 0

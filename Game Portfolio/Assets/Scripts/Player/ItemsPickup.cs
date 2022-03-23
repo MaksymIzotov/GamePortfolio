@@ -20,19 +20,22 @@ public class ItemsPickup : MonoBehaviour
             Debug.DrawRay(cam.position, cam.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
             if(hit.transform.tag == "Pickup")
             {
-                UIUpdater.Instance.UpdatePickupGUI(true);
+                if (!UIUpdater.Instance.pickup.activeSelf)
+                    UIUpdater.Instance.UpdatePickupGUI(true);
 
                 if (Input.GetKeyDown(InputManager.Instance.Pickup))
                     Pickup(hit.transform.gameObject);
             }
             else
             {
-                UIUpdater.Instance.UpdatePickupGUI(false);
+                if(UIUpdater.Instance.pickup.activeSelf)
+                    UIUpdater.Instance.UpdatePickupGUI(false);
             }
         }
         else
         {
-            UIUpdater.Instance.UpdatePickupGUI(false);
+            if (UIUpdater.Instance.pickup.activeSelf)
+                UIUpdater.Instance.UpdatePickupGUI(false);
         }
     }
 
