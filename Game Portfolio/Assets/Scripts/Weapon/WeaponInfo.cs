@@ -48,6 +48,6 @@ public class WeaponInfo : MonoBehaviour
     [Tooltip("Base weapon damage")]
     public int baseDamage;
 
-    [HideInInspector] public int currentAmmo;
+    public int currentAmmo;
 
 }

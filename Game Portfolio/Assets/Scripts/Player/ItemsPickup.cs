@@ -1,0 +1,44 @@
+using UnityEngine;
+
+public class ItemsPickup : MonoBehaviour
+{
+    public Transform cam;
+    public float distance;
+
+    private RaycastHit hit;
+
+
+    void Update()
+    {
+        CheckItems();
+    }
+
+    private void CheckItems()
+    {
+        if (Physics.Raycast(cam.position, cam.TransformDirection(Vector3.forward), out hit, distance))
+        {
+            Debug.DrawRay(cam.position, cam.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            if(hit.transform.tag == "Pickup")
+            {
+                UIUpdater.Instance.UpdatePickupGUI(true);
+
+                if (Input.GetKeyDown(InputManager.Instance.Pickup))
+                    Pickup(hit.transform.gameObject);
+            }
+            else
+            {
+                UIUpdater.Instance.UpdatePickupGUI(false);
+            }
+        }
+        else
+        {
+            UIUpdater.Instance.UpdatePickupGUI(false);
+        }
+    }
+
+    private void Pickup(GameObject go)
+    {
+        if (GetComponent<WeaponController>().PickupItem(go.GetComponent<ItemsInfo>().index))
+            GameobjectDestroyer.Instance.DestroyGO(go);
+    }
+}

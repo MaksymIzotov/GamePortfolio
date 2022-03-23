@@ -77,6 +77,7 @@ public class WeaponShoot : MonoBehaviour
 
         //Play animation
         weaponAnimation?.Shoot();
+
     }
 
     IEnumerator ShootOnce()
@@ -85,6 +86,8 @@ public class WeaponShoot : MonoBehaviour
 
         ShotgunCheck();
         info.currentAmmo -= 1;
+
+        UIUpdater.Instance.UpdateAmmoText(info.currentAmmo);
 
         yield return new WaitForSeconds(info.shootingDelay);
 
@@ -100,6 +103,8 @@ public class WeaponShoot : MonoBehaviour
         {
             ShotgunCheck();
             info.currentAmmo -= 1;
+
+            UIUpdater.Instance.UpdateAmmoText(info.currentAmmo);
 
             if (info.currentAmmo <= 0)
                 Reload();
@@ -135,10 +140,12 @@ public class WeaponShoot : MonoBehaviour
         canShoot = false;
         weaponAnimation.Reload();
 
-        info.currentAmmo = info.maxAmmo;
-
         yield return new WaitForSeconds(info.reloadTime);
         stateController.SetState(WeaponInfo.State.IDLE);
+        info.currentAmmo = info.maxAmmo;
+
+        UIUpdater.Instance.UpdateAmmoText(info.currentAmmo);
+
         canShoot = true;
     }
 
