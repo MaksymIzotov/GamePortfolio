@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerMouseLook : MonoBehaviour
+public class PlayerMouseLook : MonoBehaviourPunCallbacks
 {
     #region Public Variables
 
@@ -38,6 +39,7 @@ public class PlayerMouseLook : MonoBehaviour
 
         GetComponent<PlayerMouseLook>().enabled = ErrorHandling();
 
+        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
 

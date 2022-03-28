@@ -48,7 +48,7 @@ public class WeaponCameraFollow : MonoBehaviour
 
     void VariablesAssignment()
     {
-        mouseSettings = GameObject.Find("Player").GetComponent<PlayerMouseLook>();
+        mouseSettings = GameObject.Find("Player(Clone)").GetComponent<PlayerMouseLook>();
 
         if (mouseSettings == null)
             ErrorHandler.Instance.GameObjectIsMissing("Mouse look script on player");

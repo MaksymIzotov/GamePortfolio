@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviourPunCallbacks
 {
     #region Public Variables
 
@@ -25,6 +27,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Private Variables
+    private PhotonView PV;
     private CharacterController cc;
 
     private Vector3 playerVelocity;
@@ -61,11 +64,15 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!PV.IsMine) { return; }
+
         MovePlayer();
     }
 
     private void Update()
     {
+        if (!PV.IsMine) { return; }
+
         HandleInput();
         Crouch();
         Jump();
@@ -158,6 +165,8 @@ public class PlayerController : MonoBehaviour
     {
         cc = GetComponent<CharacterController>();
         playerCam = GetComponentInChildren<Camera>().transform;
+
+        PV = GetComponent<PhotonView>();
     }
 
     bool ErrorHandling()
