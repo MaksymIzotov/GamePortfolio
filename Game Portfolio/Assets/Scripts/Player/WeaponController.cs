@@ -73,6 +73,18 @@ public class WeaponController : MonoBehaviour
         return false;
     }
 
+    public void DropOnDeath()
+    {
+        for (int i = 0; i < inventory.Length; i++) 
+        {
+            if(inventory[i] != null)
+            {
+                Vector3 torque = new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
+                GetComponent<PhotonView>().RPC("RPC_DropItem", RpcTarget.All, inventory[i].GetComponent<ItemsInfo>().index, transform.position, transform.rotation, torque);
+            }
+        }
+    }
+
     private void DropItem()
     {
         if (itemInHands == null) { return; }
@@ -92,7 +104,10 @@ public class WeaponController : MonoBehaviour
     void RPC_DropItem(int index, Vector3 pos, Quaternion rot, Vector3 torque)
     {
         GameObject go = Instantiate(groundItems[index], pos, rot);
-        go.GetComponent<Rigidbody>().AddForce(go.transform.forward * dropForce, ForceMode.Impulse);
+
+        if (torque != Vector3.zero)
+            go.GetComponent<Rigidbody>().AddForce(go.transform.forward * dropForce, ForceMode.Impulse);
+
         go.GetComponent<Rigidbody>().AddTorque(torque * dropForce / 2, ForceMode.Impulse);
     }
 }

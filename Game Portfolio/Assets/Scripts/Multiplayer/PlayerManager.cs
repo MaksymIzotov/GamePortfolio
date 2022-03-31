@@ -36,6 +36,8 @@ public class PlayerManager : MonoBehaviour
 
 	public void Die(Transform deathPos)
 	{
+		controller.GetComponent<WeaponController>().DropOnDeath();
+
 		PhotonNetwork.Destroy(controller);
 
 		ghostGO = Instantiate(ghostPrefab, deathPos.position, deathPos.rotation);

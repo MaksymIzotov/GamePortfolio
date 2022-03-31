@@ -14,6 +14,8 @@ public class PlayerHealth : MonoBehaviourPun
     {
 		PV = GetComponent<PhotonView>();
 
+		if (!PV.IsMine) { return; }
+
 		currentHealth = 100;
 		UIUpdater.Instance.UpdateHealthText(currentHealth);
 		playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
