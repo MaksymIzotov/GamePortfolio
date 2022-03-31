@@ -1,6 +1,7 @@
 using UnityEngine;
+using Photon.Pun;
 
-public class ItemsPickup : MonoBehaviour
+public class ItemsPickup : MonoBehaviourPun
 {
     public Transform cam;
     public float distance;
@@ -42,6 +43,6 @@ public class ItemsPickup : MonoBehaviour
     private void Pickup(GameObject go)
     {
         if (GetComponent<WeaponController>().PickupItem(go.GetComponent<ItemsInfo>().index))
-            GameobjectDestroyer.Instance.DestroyGO(go);
+            GetComponent<GameobjectDestroyer>().DestroyGO(go);
     }
 }

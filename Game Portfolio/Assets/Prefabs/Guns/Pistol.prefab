@@ -65,6 +65,7 @@ MonoBehaviour:
   maxAmmo: 15
   reloadTime: 1
   baseDamage: 12
+  headDamage: 18
   currentAmmo: 0
 --- !u!114 &537118818759456211
 MonoBehaviour:

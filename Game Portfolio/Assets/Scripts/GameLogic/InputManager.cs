@@ -6,6 +6,8 @@ public class InputManager : MonoBehaviour
 {
     public static InputManager Instance;
 
+    public float sensitivity;
+
     [HideInInspector] public KeyCode Forward;
     [HideInInspector] public KeyCode Backward;
     [HideInInspector] public KeyCode Left;

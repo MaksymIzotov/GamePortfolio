@@ -7,9 +7,6 @@ public class PlayerMouseLook : MonoBehaviourPunCallbacks
 {
     #region Public Variables
 
-    [Tooltip("Sensitivity of the mouse")]
-    public float sensitivity;
-
     #endregion
 
     #region Private Variables
@@ -53,8 +50,8 @@ public class PlayerMouseLook : MonoBehaviourPunCallbacks
 
     void MouseMovement()
     {
-        mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.fixedDeltaTime * sensMult;
-        mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.fixedDeltaTime * sensMult;
+        mouseX = Input.GetAxis("Mouse X") * InputManager.Instance.sensitivity * Time.fixedDeltaTime * sensMult;
+        mouseY = Input.GetAxis("Mouse Y") * InputManager.Instance.sensitivity * Time.fixedDeltaTime * sensMult;
 
         rotation = transform.localRotation.eulerAngles;
         desiredX = rotation.y + mouseX;

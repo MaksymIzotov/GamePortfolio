@@ -1,23 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class GameobjectDestroyer : MonoBehaviour
+public class GameobjectDestroyer : MonoBehaviourPun
 {
-    public static GameobjectDestroyer Instance;
+    PhotonView pv;
 
-    private void Awake()
+    private void Start()
     {
-        Instance = this;
+        pv = GetComponent<PhotonView>();
     }
 
     public void DestroyGO(GameObject go)
     {
-        Destroy(go);
+        pv.RPC("DestroyGO_RPC", RpcTarget.All, go.name);
     }
 
-    public void DestroyGO(GameObject go, float delay)
+    [PunRPC]
+    void DestroyGO_RPC(string go)
     {
-        Destroy(go, delay);
+        Destroy(GameObject.Find(go));
     }
 }

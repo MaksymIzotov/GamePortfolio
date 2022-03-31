@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -19,7 +17,6 @@ public class HeadBob : MonoBehaviour
     #endregion
 
     #region Private Variables
-    CharacterController cc;
 
     float defaultPosY = 0;
     float timer = 0;
@@ -66,7 +63,6 @@ public class HeadBob : MonoBehaviour
 
     void VariablesAssignment()
     {
-        cc = GetComponent<CharacterController>();
         walkingSpeed = GetComponent<PlayerController>().walkSpeed;
         defaultPosY = playerCamera.transform.localPosition.y;
     }

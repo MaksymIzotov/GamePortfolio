@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public int damage;
+    public int bodyDamage;
+    public int headDamage;
     private void Start()
     {
         Destroy(gameObject, 5);
@@ -12,8 +13,23 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Enemy")
-            collision.gameObject.GetComponent<EnemyHealth>().TakeDamage(damage);
+        if (collision.transform.parent == null)
+        {
+            CreateHitPoint();
+
+            Destroy(gameObject);
+
+            return;
+        }
+
+        if (collision.transform.parent.root.gameObject.tag == "Enemy")
+        {
+            if (collision.gameObject.tag == "Head")
+                collision.transform.parent.root.GetComponent<PlayerHealth>().TakeDamage(headDamage);
+            else
+                collision.transform.parent.root.GetComponent<PlayerHealth>().TakeDamage(bodyDamage);
+        }
+
 
         CreateHitPoint();
 

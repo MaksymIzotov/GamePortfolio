@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 [RequireComponent(typeof(WeaponInfo))]
 public class WeaponShoot : MonoBehaviour
@@ -15,6 +16,7 @@ public class WeaponShoot : MonoBehaviour
 
     #region Private Variables
 
+    private PhotonView pv;
     private WeaponRecoil recoil;
     private WeaponAnimations weaponAnimation;
     private WeaponStateController stateController;
@@ -71,7 +73,8 @@ public class WeaponShoot : MonoBehaviour
         //Spawn bullet
         GameObject bullet = Instantiate(bulletPrefab, cam.transform.position, cam.transform.rotation);
         bullet.GetComponent<Rigidbody>().AddForce((transform.forward - new Vector3(Random.Range(-r,r), Random.Range(-r, r), Random.Range(-r, r))*0.5f) * info.bulletForceAmount, ForceMode.Impulse);
-        bullet.GetComponent<Bullet>().damage = info.baseDamage;
+        bullet.GetComponent<Bullet>().bodyDamage = info.baseDamage;
+        bullet.GetComponent<Bullet>().headDamage = info.headDamage;
 
         //Add recoil
         recoil.AddRecoil(info.recoilX, info.recoilY, info.recoilZ);
@@ -156,9 +159,8 @@ public class WeaponShoot : MonoBehaviour
 
     bool AssignVariables()
     {
-
-        cam = GameObject.Find("PlayerCamera");
-        recoil = GameObject.Find("CameraRecoil").GetComponent<WeaponRecoil>();
+        cam = transform.parent.root.Find("CameraRot/CameraRecoil/PlayerCamera").gameObject;
+        recoil = transform.parent.root.Find("CameraRot/CameraRecoil").GetComponent<WeaponRecoil>();
         weaponAnimation = GetComponent<WeaponAnimations>();
         stateController = GetComponent<WeaponStateController>();
         info = GetComponent<WeaponInfo>();

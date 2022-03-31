@@ -47,6 +47,8 @@ public class WeaponInfo : MonoBehaviour
     [Header("Damage")]
     [Tooltip("Base weapon damage")]
     public int baseDamage;
+    [Tooltip("Head weapon damage")]
+    public int headDamage;
 
     public int currentAmmo;
 

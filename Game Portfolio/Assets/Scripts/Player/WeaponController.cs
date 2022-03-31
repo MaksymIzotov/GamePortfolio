@@ -1,9 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class WeaponController : MonoBehaviour
 {
+    PhotonView pv;
+
     public GameObject[] items;
     public GameObject[] groundItems;
     public Transform itemParent;
@@ -16,32 +17,22 @@ public class WeaponController : MonoBehaviour
 
     private void Start()
     {
+        pv = GetComponent<PhotonView>();
+
         currentItem = 0;
 
-        inventory = new GameObject[10];
+        inventory = new GameObject[3];
     }
     private void Update()
     {
+        if (!pv.IsMine) { return; }
+
         if(Input.GetKeyDown(KeyCode.Alpha1))
             ChangeWeapon(0, false);
         if (Input.GetKeyDown(KeyCode.Alpha2))
             ChangeWeapon(1, false);
         if (Input.GetKeyDown(KeyCode.Alpha3))
             ChangeWeapon(2, false);
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-            ChangeWeapon(3, false);
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-            ChangeWeapon(4, false);
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-            ChangeWeapon(5, false);
-        if (Input.GetKeyDown(KeyCode.Alpha7))
-            ChangeWeapon(6, false);
-        if (Input.GetKeyDown(KeyCode.Alpha8))
-            ChangeWeapon(7, false);
-        if (Input.GetKeyDown(KeyCode.Alpha9))
-            ChangeWeapon(8, false);
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-            ChangeWeapon(9, false);
 
         if (Input.GetKeyDown(InputManager.Instance.Drop))
             DropItem();
@@ -52,7 +43,7 @@ public class WeaponController : MonoBehaviour
         if (currentItem == index && !isPicked) { return; }
 
         if (itemInHands != null)
-            GameobjectDestroyer.Instance.DestroyGO(itemInHands);
+            Destroy(itemInHands);
 
         currentItem = index;
 
@@ -88,11 +79,20 @@ public class WeaponController : MonoBehaviour
 
         int index = itemInHands.GetComponent<ItemsInfo>().index;
 
-        GameobjectDestroyer.Instance.DestroyGO(itemInHands);
+        Destroy(itemInHands);
         inventory[currentItem] = null;
 
-        GameObject go = Instantiate(groundItems[index], itemParent.position, itemParent.rotation);
+        Vector3 torque = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+
+        GetComponent<PhotonView>().RPC("RPC_DropItem", RpcTarget.All, index, transform.position, transform.rotation, torque);
+        
+    }
+
+    [PunRPC]
+    void RPC_DropItem(int index, Vector3 pos, Quaternion rot, Vector3 torque)
+    {
+        GameObject go = Instantiate(groundItems[index], pos, rot);
         go.GetComponent<Rigidbody>().AddForce(go.transform.forward * dropForce, ForceMode.Impulse);
-        go.GetComponent<Rigidbody>().AddTorque(new Vector3(Random.Range(-1f,1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * dropForce/2, ForceMode.Impulse);
+        go.GetComponent<Rigidbody>().AddTorque(torque * dropForce / 2, ForceMode.Impulse);
     }
 }

@@ -66,3 +66,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8880735413282ae4f980771993b7a19c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ghostPrefab: {fileID: 4647220297121490125, guid: c14a57af62e0b8449b11b28e0950a63e, type: 3}
+  respawnDelay: 10

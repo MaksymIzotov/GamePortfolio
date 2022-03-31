@@ -10,7 +10,6 @@ public class DestroyNonPlayerScripts : MonoBehaviourPunCallbacks
     public HeadBob hb;
     public PlayerMouseLook mouseLook;
     public PlayerController playerController;
-    public WeaponController weaponController;
     public ItemsPickup itemsPickup;
 
     void Start()
@@ -23,12 +22,14 @@ public class DestroyNonPlayerScripts : MonoBehaviourPunCallbacks
     {
         if (!PV.IsMine)
         {
+            gameObject.tag = "Enemy";
+            gameObject.layer = LayerMask.NameToLayer("Enemy");
+
             GFX.SetActive(true);
 
             Destroy(hb);
             Destroy(mouseLook);
             Destroy(playerController);
-            Destroy(weaponController);
             Destroy(itemsPickup);
             Destroy(Camera);
         }

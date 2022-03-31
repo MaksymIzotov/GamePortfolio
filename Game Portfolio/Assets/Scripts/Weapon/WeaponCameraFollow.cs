@@ -37,8 +37,8 @@ public class WeaponCameraFollow : MonoBehaviour
 
     void WeaponSway()
     {
-        mouseX = Input.GetAxis("Mouse X") * mouseSettings.sensitivity * Time.fixedDeltaTime * swayAmount;
-        mouseY = Input.GetAxis("Mouse Y") * mouseSettings.sensitivity * Time.fixedDeltaTime * swayAmount;
+        mouseX = Input.GetAxis("Mouse X") * InputManager.Instance.sensitivity * Time.fixedDeltaTime * swayAmount;
+        mouseY = Input.GetAxis("Mouse Y") * InputManager.Instance.sensitivity * Time.fixedDeltaTime * swayAmount;
         transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(new Vector3(Mathf.Clamp(-mouseY * 5, -45, 45), Mathf.Clamp(mouseX * 5, -45, 45), 0)), 0.07f);
     }
 
@@ -48,7 +48,7 @@ public class WeaponCameraFollow : MonoBehaviour
 
     void VariablesAssignment()
     {
-        mouseSettings = GameObject.Find("Player(Clone)").GetComponent<PlayerMouseLook>();
+        mouseSettings = transform.parent.root.GetComponent<PlayerMouseLook>();
 
         if (mouseSettings == null)
             ErrorHandler.Instance.GameObjectIsMissing("Mouse look script on player");
