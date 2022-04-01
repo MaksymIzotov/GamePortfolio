@@ -377,7 +377,6 @@ GameObject:
   - component: {fileID: 3045409988645445954}
   - component: {fileID: 3045409988645445955}
   - component: {fileID: 3045409988645445952}
-  - component: {fileID: 3045409988645445953}
   - component: {fileID: 3045409988645445958}
   - component: {fileID: 3045409988645445959}
   - component: {fileID: 986559526353801145}
@@ -497,21 +496,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27c8626dc89b47942b4d92fe7206acd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3045409988645445953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3045409988645445964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a58b59af1ebfd8d408cb62f8d542038a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCamera: {fileID: 3045409987944269137}
-  bobbingRunAmount: 0.05
-  bobbingMultiplier: 10
 --- !u!114 &3045409988645445958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,7 +558,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GFX: {fileID: 1234592164}
   Camera: {fileID: 3045409987944269136}
-  hb: {fileID: 3045409988645445953}
+  hb: {fileID: 0}
   mouseLook: {fileID: 3045409988645445952}
   playerController: {fileID: 3045409988645445955}
   itemsPickup: {fileID: 3045409988645445959}

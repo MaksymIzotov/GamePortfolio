@@ -36,6 +36,7 @@ public class InputManager : MonoBehaviour
 
     public void AssignDefaults()
     {
+
         Forward = KeyCode.W;
         Backward = KeyCode.S;
         Left = KeyCode.A;

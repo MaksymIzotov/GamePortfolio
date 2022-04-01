@@ -2115,6 +2115,7 @@ GameObject:
   - component: {fileID: 1024418236}
   - component: {fileID: 1024418238}
   - component: {fileID: 1024418237}
+  - component: {fileID: 1024418239}
   m_Layer: 0
   m_Name: RoomManager
   m_TagString: Untagged
@@ -2170,6 +2171,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aa22be523c699144b9efc8c5239bb67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1024418239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024418235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8dd8befa28058943af5d2a2d4da4d21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensitivity: 0
+  Forward: 0
+  Backward: 0
+  Left: 0
+  Right: 0
+  Jump: 0
+  Crouch: 0
+  Run: 0
+  Shoot: 0
+  Aim: 0
+  Reload: 0
+  Pickup: 0
+  Drop: 0
 --- !u!1 &1098467160
 GameObject:
   m_ObjectHideFlags: 0
@@ -2749,7 +2775,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1178436678}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1149630233}
+        m_TargetAssemblyTypeName: Launcher, Assembly-CSharp
+        m_MethodName: ExitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1178436678
 MonoBehaviour:
   m_ObjectHideFlags: 0

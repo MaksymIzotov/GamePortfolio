@@ -357,7 +357,6 @@ GameObject:
   m_Component:
   - component: {fileID: 255428389}
   - component: {fileID: 255428388}
-  - component: {fileID: 255428390}
   - component: {fileID: 255428392}
   m_Layer: 0
   m_Name: GameMechanicsHandler
@@ -392,31 +391,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &255428390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 255428387}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8dd8befa28058943af5d2a2d4da4d21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sensitivity: 5
-  Forward: 0
-  Backward: 0
-  Left: 0
-  Right: 0
-  Jump: 0
-  Crouch: 0
-  Run: 0
-  Shoot: 0
-  Aim: 0
-  Reload: 0
-  Pickup: 0
-  Drop: 0
 --- !u!114 &255428392
 MonoBehaviour:
   m_ObjectHideFlags: 0

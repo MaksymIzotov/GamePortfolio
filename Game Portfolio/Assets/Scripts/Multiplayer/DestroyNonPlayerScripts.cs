@@ -7,7 +7,6 @@ public class DestroyNonPlayerScripts : MonoBehaviourPunCallbacks
 
     public GameObject GFX;
     public GameObject Camera;
-    public HeadBob hb;
     public PlayerMouseLook mouseLook;
     public PlayerController playerController;
     public ItemsPickup itemsPickup;
@@ -27,7 +26,6 @@ public class DestroyNonPlayerScripts : MonoBehaviourPunCallbacks
 
             GFX.SetActive(true);
 
-            Destroy(hb);
             Destroy(mouseLook);
             Destroy(playerController);
             Destroy(itemsPickup);
