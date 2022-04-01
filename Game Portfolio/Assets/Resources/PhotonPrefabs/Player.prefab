@@ -558,7 +558,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GFX: {fileID: 1234592164}
   Camera: {fileID: 3045409987944269136}
-  hb: {fileID: 0}
   mouseLook: {fileID: 3045409988645445952}
   playerController: {fileID: 3045409988645445955}
   itemsPickup: {fileID: 3045409988645445959}

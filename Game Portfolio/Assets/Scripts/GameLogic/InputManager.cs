@@ -24,6 +24,7 @@ public class InputManager : MonoBehaviour
     [HideInInspector] public KeyCode Pickup;
     [HideInInspector] public KeyCode Drop;
 
+    private bool isChanging = false;
     private void Awake()
     {
         Instance = this;
@@ -52,5 +53,39 @@ public class InputManager : MonoBehaviour
 
         Pickup = KeyCode.E;
         Drop = KeyCode.G;
+    }
+
+
+    public void SetKeyCode(GameObject button)
+    {
+        switch (button.name) {
+            case "Jump":
+                isChanging = true;
+                //Update UI
+                break;
+        }
+
+    }
+
+    void OnGUI()
+    {
+        if (!isChanging) { return; }
+
+        Event e = Event.current;
+        if (e.isKey)
+        {
+            
+
+        }
+    }
+
+    private void DetectKey(ref KeyCode keyCode, KeyCode changeTo)
+    {
+        Event e = Event.current;
+        if (e.isKey)
+        {
+            Debug.Log(e.keyCode);
+            Jump = e.keyCode;
+        }
     }
 }

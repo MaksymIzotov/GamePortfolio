@@ -57,7 +57,7 @@ public class PlayerMouseLook : MonoBehaviourPunCallbacks
         desiredX = rotation.y + mouseX;
 
         xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        xRotation = Mathf.Clamp(xRotation, -85f, 85f);
 
         headJump = Mathf.Clamp(Mathf.Lerp(headJump, cc.velocity.y,0.05f),-10,10);
 
