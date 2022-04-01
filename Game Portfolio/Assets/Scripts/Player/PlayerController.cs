@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public float crouchHeight = 0.5f;
     [Tooltip("Time to duck")]
     public float crouchTime = 1f;
+    [Tooltip("Movement speed while crouching")]
+    public float crouchSpeed = 1f;
     [Tooltip("A step to change speed between walking and running")]
     public float speedChangingStep = 0.5f;
 
@@ -43,7 +45,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private bool isJumping;
     private bool isCrouching;
     [HideInInspector]
-    public bool isRunning;
+    public bool isWalking;
     private bool isGrounded;
 
     private Transform playerCam;
@@ -72,7 +74,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private void Update()
     {
         if (!PV.IsMine) { return; }
-
         HandleInput();
         Crouch();
         Jump();
@@ -87,12 +88,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (isGrounded && playerVelocity.y < 0)
             playerVelocity.y = 0f;
 
-        movement = Quaternion.Euler(0, playerCam.transform.eulerAngles.y, 0) * new Vector3(moveX, 0, moveY);
+        if (cc.isGrounded)
+            movement = Quaternion.Euler(0, playerCam.transform.eulerAngles.y, 0) * new Vector3(moveX, 0, moveY);
+        else
+            movement += Quaternion.Euler(0, playerCam.transform.eulerAngles.y, 0) * new Vector3(moveX, 0, moveY) * 0.05f;
+
         movement = Vector3.ClampMagnitude(movement, 1);
 
         SpeedHandle();
 
-        cc.Move(movement * speed * cc.height * Time.deltaTime);
+        cc.Move(movement * speed * Time.deltaTime);
 
         playerVelocity.y += gravity * Time.deltaTime;
         cc.Move(playerVelocity * Time.deltaTime);
@@ -101,10 +106,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     void SpeedHandle()
     {
-        if (isRunning)
-            speed = Mathf.Lerp(speed, runSpeed, speedChangingStep / 3);
-        else 
-            speed = Mathf.Lerp(speed, walkSpeed, speedChangingStep / 3);
+        if (!cc.isGrounded) { return; }
+
+        if (isCrouching) { speed = crouchSpeed; return; }
+
+        if (isWalking)
+            speed = walkSpeed;
+        else
+            speed = runSpeed;
     }
 
     void Crouch()
@@ -138,7 +147,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             moveX = 0;
 
         isJumping = Input.GetKeyDown(InputManager.Instance.Jump);
-        isRunning = Input.GetKey(InputManager.Instance.Run);
+        isWalking = Input.GetKey(InputManager.Instance.Run);
         isCrouching = Input.GetKey(InputManager.Instance.Crouch);
     }
 

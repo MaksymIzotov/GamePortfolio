@@ -43,7 +43,7 @@ public class HeadBob : MonoBehaviour
 
     void RunHeadBob(float speed)
     {
-        if (GetComponent<PlayerController>().isRunning)
+        if (GetComponent<PlayerController>().isWalking)
         {
             //Player is moving
             timer += Time.deltaTime * (speed - walkingSpeed) * bobbingMultiplier;
