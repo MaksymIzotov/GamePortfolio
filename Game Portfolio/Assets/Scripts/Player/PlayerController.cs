@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             moveX = 0;
 
         isJumping = Input.GetKeyDown(InputManager.Instance.Jump);
-        isWalking = Input.GetKey(InputManager.Instance.Run);
+        isWalking = Input.GetKey(InputManager.Instance.Walk);
         isCrouching = Input.GetKey(InputManager.Instance.Crouch);
     }
 

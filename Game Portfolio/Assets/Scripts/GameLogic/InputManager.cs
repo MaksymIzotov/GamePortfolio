@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class InputManager : MonoBehaviour
 {
@@ -15,7 +14,7 @@ public class InputManager : MonoBehaviour
 
     [HideInInspector] public KeyCode Jump;
     [HideInInspector] public KeyCode Crouch;
-    [HideInInspector] public KeyCode Run;
+    [HideInInspector] public KeyCode Walk;
 
     [HideInInspector] public KeyCode Shoot;
     [HideInInspector] public KeyCode Aim;
@@ -24,7 +23,11 @@ public class InputManager : MonoBehaviour
     [HideInInspector] public KeyCode Pickup;
     [HideInInspector] public KeyCode Drop;
 
+    public GameObject[] buttons;
+
     private bool isChanging = false;
+    private GameObject lastButton;
+    private KeyCode nullKey = KeyCode.None;
     private void Awake()
     {
         Instance = this;
@@ -32,12 +35,15 @@ public class InputManager : MonoBehaviour
 
     private void Start()
     {
+        //TODO Load From Save File
+
         AssignDefaults();
+
+        UpdateButtonsText();
     }
 
     public void AssignDefaults()
     {
-
         Forward = KeyCode.W;
         Backward = KeyCode.S;
         Left = KeyCode.A;
@@ -45,7 +51,7 @@ public class InputManager : MonoBehaviour
 
         Jump = KeyCode.Space;
         Crouch = KeyCode.LeftControl;
-        Run = KeyCode.LeftShift;
+        Walk = KeyCode.LeftShift;
 
         Shoot = KeyCode.Mouse0;
         Aim = KeyCode.Mouse1;
@@ -58,13 +64,10 @@ public class InputManager : MonoBehaviour
 
     public void SetKeyCode(GameObject button)
     {
-        switch (button.name) {
-            case "Jump":
-                isChanging = true;
-                //Update UI
-                break;
-        }
+        lastButton = button;
 
+        isChanging = true;
+        lastButton.GetComponent<SettingsButtonUpdater>().UpdateButton(KeyCode.None);
     }
 
     void OnGUI()
@@ -74,18 +77,69 @@ public class InputManager : MonoBehaviour
         Event e = Event.current;
         if (e.isKey)
         {
-            
+            FindKey(lastButton.name) = e.keyCode;
+            lastButton.GetComponent<SettingsButtonUpdater>().UpdateButton(FindKey(lastButton.name));
 
+            CheckSimilar();
+
+            isChanging = false;
         }
     }
 
-    private void DetectKey(ref KeyCode keyCode, KeyCode changeTo)
+    private void CheckSimilar()
     {
-        Event e = Event.current;
-        if (e.isKey)
+        foreach(GameObject n in buttons)
         {
-            Debug.Log(e.keyCode);
-            Jump = e.keyCode;
+            if (n == lastButton) { continue; }
+
+            if(n.GetComponentInChildren<TMP_Text>().text == lastButton.GetComponentInChildren<TMP_Text>().text)
+            {
+                n.GetComponentInChildren<SettingsButtonUpdater>().UpdateButton(KeyCode.None);
+                FindKey(n.GetComponentInChildren<TMP_Text>().text) = nullKey;
+            }
+        }
+    }
+
+    private void UpdateButtonsText()
+    {
+        foreach(GameObject n in buttons)
+        {
+            n.GetComponentInChildren<SettingsButtonUpdater>().UpdateButton(FindKey(n.name));
+        }
+    }
+
+    private ref KeyCode FindKey(string keyName)
+    {
+        switch (keyName)
+        {
+            case "Forward":
+                return ref Forward;
+            case "Backward":
+                return ref Backward;
+            case "Left":
+                return ref Left;
+            case "Right":
+                return ref Right;
+            case "Jump":
+                return ref Jump;
+            case "Crouch":
+                return ref Crouch;
+            case "Walk":
+                return ref Walk;
+            case "Reload":
+                return ref Reload;
+            case "Drop":
+                return ref Drop;
+            case "Pickup":
+                return ref Pickup;
+            case "Shoot":
+                return ref Shoot;
+            case "Aim":
+                return ref Aim;
+
+            default:
+                return ref nullKey;
+                
         }
     }
 }
