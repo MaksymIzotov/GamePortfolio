@@ -132,19 +132,31 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     void HandleInput()
     {
-        if (Input.GetKey(InputManager.Instance.Forward))
-            moveY = Mathf.Lerp(moveY, 1, speedChangingStep);
-        if (Input.GetKey(InputManager.Instance.Backward))
-            moveY = Mathf.Lerp(moveY, -1, speedChangingStep);
         if (Input.GetKey(InputManager.Instance.Forward) && Input.GetKey(InputManager.Instance.Backward) || !Input.GetKey(InputManager.Instance.Forward) && !Input.GetKey(InputManager.Instance.Backward))
-            moveY = Mathf.Lerp(moveY, 0, speedChangingStep);
+        {
+            moveY = Mathf.Lerp(moveY, 0, speedChangingStep * Time.deltaTime);
+        }
+        else
+        {
+            if (Input.GetKey(InputManager.Instance.Forward))
+                moveY = Mathf.Lerp(moveY, 1, speedChangingStep * Time.deltaTime);
+            if (Input.GetKey(InputManager.Instance.Backward))
+                moveY = Mathf.Lerp(moveY, -1, speedChangingStep * Time.deltaTime);
+        }
 
-        if (Input.GetKey(InputManager.Instance.Right))
-            moveX = Mathf.Lerp(moveX, 1, speedChangingStep);
-        if (Input.GetKey(InputManager.Instance.Left))
-            moveX = Mathf.Lerp(moveX, -1, speedChangingStep);
         if (Input.GetKey(InputManager.Instance.Left) && Input.GetKey(InputManager.Instance.Right) || !Input.GetKey(InputManager.Instance.Left) && !Input.GetKey(InputManager.Instance.Right))
-            moveX = Mathf.Lerp(moveX, 0, speedChangingStep);
+        {
+            moveX = Mathf.Lerp(moveX, 0, speedChangingStep * Time.deltaTime);
+        }
+        else
+        {
+            if (Input.GetKey(InputManager.Instance.Right))
+                moveX = Mathf.Lerp(moveX, 1, speedChangingStep * Time.deltaTime);
+            if (Input.GetKey(InputManager.Instance.Left))
+                moveX = Mathf.Lerp(moveX, -1, speedChangingStep * Time.deltaTime);
+        }
+
+
 
         isJumping = Input.GetKeyDown(InputManager.Instance.Jump);
         isWalking = Input.GetKey(InputManager.Instance.Walk);
