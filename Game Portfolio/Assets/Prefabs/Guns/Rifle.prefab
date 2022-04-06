@@ -172,7 +172,7 @@ MonoBehaviour:
   shootingDelay: 0.1
   bulletForceAmount: 500
   radius: 0.03
-  recoilX: -2
+  recoilX: -3
   recoilY: 2
   recoilZ: 0.35
   maxAmmo: 30

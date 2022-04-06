@@ -53,6 +53,12 @@ public class PlayerMouseLook : MonoBehaviourPunCallbacks
         mouseX = Input.GetAxis("Mouse X") * InputManager.Instance.sensitivity * Time.fixedDeltaTime * sensMult;
         mouseY = Input.GetAxis("Mouse Y") * InputManager.Instance.sensitivity * Time.fixedDeltaTime * sensMult;
 
+        if (Input.GetKey(InputManager.Instance.Aim))
+        {
+            mouseX *= InputManager.Instance.aimMult;
+            mouseY *= InputManager.Instance.aimMult;
+        }
+
         rotation = transform.localRotation.eulerAngles;
         desiredX = rotation.y + mouseX;
 

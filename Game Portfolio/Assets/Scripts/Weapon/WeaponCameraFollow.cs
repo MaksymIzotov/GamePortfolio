@@ -39,6 +39,13 @@ public class WeaponCameraFollow : MonoBehaviour
     {
         mouseX = Input.GetAxis("Mouse X") * InputManager.Instance.sensitivity * Time.fixedDeltaTime * swayAmount;
         mouseY = Input.GetAxis("Mouse Y") * InputManager.Instance.sensitivity * Time.fixedDeltaTime * swayAmount;
+
+        if (Input.GetKey(InputManager.Instance.Aim))
+        {
+            mouseX *= InputManager.Instance.aimMult;
+            mouseY *= InputManager.Instance.aimMult;
+        }
+
         transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(new Vector3(Mathf.Clamp(-mouseY * 5, -45, 45), Mathf.Clamp(mouseX * 5, -45, 45), 0)), 0.07f);
     }
 

@@ -1,11 +1,13 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class InputManager : MonoBehaviour
 {
     public static InputManager Instance;
 
     public float sensitivity;
+    public float aimMult;
 
     [HideInInspector] public KeyCode Forward;
     [HideInInspector] public KeyCode Backward;
@@ -24,6 +26,10 @@ public class InputManager : MonoBehaviour
     [HideInInspector] public KeyCode Drop;
 
     public GameObject[] buttons;
+    public Slider sensSlider;
+    public TMP_Text sensText;
+    public Slider multSlider;
+    public TMP_Text multText;
 
     private bool isChanging = false;
     private GameObject lastButton;
@@ -59,6 +65,9 @@ public class InputManager : MonoBehaviour
 
         Pickup = KeyCode.E;
         Drop = KeyCode.G;
+
+        sensitivity = 5f;
+        aimMult = 1f;
     }
 
 
@@ -106,6 +115,24 @@ public class InputManager : MonoBehaviour
         {
             n.GetComponentInChildren<SettingsButtonUpdater>().UpdateButton(FindKey(n.name));
         }
+
+        multSlider.value = aimMult;
+        sensSlider.value = sensitivity;
+        UpdateSensText();
+    }
+
+    public void UpdateSliders()
+    {
+        sensitivity = sensSlider.value;
+        aimMult = multSlider.value;
+
+        UpdateSensText();
+    }
+
+    private void UpdateSensText()
+    {
+        sensText.text = sensitivity.ToString("F2");
+        multText.text = aimMult.ToString("F2");
     }
 
     private ref KeyCode FindKey(string keyName)
