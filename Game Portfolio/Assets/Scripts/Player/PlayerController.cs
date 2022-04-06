@@ -133,18 +133,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
     void HandleInput()
     {
         if (Input.GetKey(InputManager.Instance.Forward))
-            moveY = 1;
+            moveY = Mathf.Lerp(moveY, 1, speedChangingStep);
         if (Input.GetKey(InputManager.Instance.Backward))
-            moveY = -1;
+            moveY = Mathf.Lerp(moveY, -1, speedChangingStep);
         if (Input.GetKey(InputManager.Instance.Forward) && Input.GetKey(InputManager.Instance.Backward) || !Input.GetKey(InputManager.Instance.Forward) && !Input.GetKey(InputManager.Instance.Backward))
-            moveY = 0;
+            moveY = Mathf.Lerp(moveY, 0, speedChangingStep);
 
         if (Input.GetKey(InputManager.Instance.Right))
-            moveX = 1;
+            moveX = Mathf.Lerp(moveX, 1, speedChangingStep);
         if (Input.GetKey(InputManager.Instance.Left))
-            moveX = -1;
+            moveX = Mathf.Lerp(moveX, -1, speedChangingStep);
         if (Input.GetKey(InputManager.Instance.Left) && Input.GetKey(InputManager.Instance.Right) || !Input.GetKey(InputManager.Instance.Left) && !Input.GetKey(InputManager.Instance.Right))
-            moveX = 0;
+            moveX = Mathf.Lerp(moveX, 0, speedChangingStep);
 
         isJumping = Input.GetKeyDown(InputManager.Instance.Jump);
         isWalking = Input.GetKey(InputManager.Instance.Walk);

@@ -16,10 +16,7 @@ public class UIUpdater : MonoBehaviour
         SyncSettings();
     }
 
-    private void SyncSettings()
-    {
-        pickup.GetComponentInChildren<TMP_Text>().text = InputManager.Instance.Pickup.ToString();
-    }
+    private void SyncSettings() => pickup.GetComponentInChildren<TMP_Text>().text = InputManager.Instance.Pickup.ToString();
 
     public void UpdateAmmoText(int amount) => ammo.text = "Ammo: " + amount;
 

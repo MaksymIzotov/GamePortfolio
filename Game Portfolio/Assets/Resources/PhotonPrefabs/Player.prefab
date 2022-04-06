@@ -481,7 +481,7 @@ MonoBehaviour:
   crouchHeight: 1.5
   crouchTime: 0.1
   crouchSpeed: 3
-  speedChangingStep: 0.1
+  speedChangingStep: 0.07
   speed: 0
   isWalking: 0
 --- !u!114 &3045409988645445952

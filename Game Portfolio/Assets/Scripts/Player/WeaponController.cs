@@ -95,15 +95,17 @@ public class WeaponController : MonoBehaviour
         inventory[currentItem] = null;
 
         Vector3 torque = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+        int itemName = Random.Range(0, 1000000);
 
-        GetComponent<PhotonView>().RPC("RPC_DropItem", RpcTarget.All, index, transform.position, transform.rotation, torque);
+        GetComponent<PhotonView>().RPC("RPC_DropItem", RpcTarget.All, index, transform.position, transform.rotation, torque, itemName);
         
     }
 
     [PunRPC]
-    void RPC_DropItem(int index, Vector3 pos, Quaternion rot, Vector3 torque)
+    void RPC_DropItem(int index, Vector3 pos, Quaternion rot, Vector3 torque, int itemName)
     {
         GameObject go = Instantiate(groundItems[index], pos, rot);
+        go.name = itemName.ToString("0000000");
 
         if (torque != Vector3.zero)
             go.GetComponent<Rigidbody>().AddForce(go.transform.forward * dropForce, ForceMode.Impulse);
