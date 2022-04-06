@@ -11,6 +11,8 @@ public class ItemsPickup : MonoBehaviourPun
 
     void Update()
     {
+        if (InGameUIManager.Instance.state == InGameUIManager.UISTATE.PAUSE) { return; }
+
         CheckItems();
     }
 

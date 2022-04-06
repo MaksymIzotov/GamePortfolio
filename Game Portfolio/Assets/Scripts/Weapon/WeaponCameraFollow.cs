@@ -28,6 +28,8 @@ public class WeaponCameraFollow : MonoBehaviour
 
     void Update()
     {
+        if (InGameUIManager.Instance.state == InGameUIManager.UISTATE.PAUSE) { return; }
+
         WeaponSway();
     }
 

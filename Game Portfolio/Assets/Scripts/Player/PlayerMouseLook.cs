@@ -41,7 +41,8 @@ public class PlayerMouseLook : MonoBehaviourPunCallbacks
     }
 
     void Update()
-    {
+    { 
+
         MouseMovement();
     }
     #endregion
@@ -50,8 +51,16 @@ public class PlayerMouseLook : MonoBehaviourPunCallbacks
 
     void MouseMovement()
     {
-        mouseX = Input.GetAxis("Mouse X") * InputManager.Instance.sensitivity * Time.fixedDeltaTime * sensMult;
-        mouseY = Input.GetAxis("Mouse Y") * InputManager.Instance.sensitivity * Time.fixedDeltaTime * sensMult;
+        if (InGameUIManager.Instance.state != InGameUIManager.UISTATE.PAUSE)
+        {
+            mouseX = Input.GetAxis("Mouse X") * InputManager.Instance.sensitivity * Time.fixedDeltaTime * sensMult;
+            mouseY = Input.GetAxis("Mouse Y") * InputManager.Instance.sensitivity * Time.fixedDeltaTime * sensMult;
+        }
+        else
+        {
+            mouseX = 0;
+            mouseY = 0;
+        }
 
         if (Input.GetKey(InputManager.Instance.Aim))
         {
@@ -65,7 +74,7 @@ public class PlayerMouseLook : MonoBehaviourPunCallbacks
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -85f, 85f);
 
-        headJump = Mathf.Clamp(Mathf.Lerp(headJump, cc.velocity.y,0.05f),-10,10);
+        headJump = Mathf.Clamp(Mathf.Lerp(headJump, cc.velocity.y, 0.05f), -10, 10);
 
         playerCam.localRotation = Quaternion.Euler(xRotation + headJump, 0, 0);
         gameObject.transform.localRotation = Quaternion.Euler(0, desiredX, 0);

@@ -74,6 +74,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private void Update()
     {
         if (!PV.IsMine) { return; }
+        if (InGameUIManager.Instance.state == InGameUIManager.UISTATE.PAUSE) { return; }
+
         HandleInput();
         Crouch();
         Jump();
@@ -85,6 +87,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     void MovePlayer()
     {
+        if(isGrounded && InGameUIManager.Instance.state == InGameUIManager.UISTATE.PAUSE)
+        {
+            moveX = 0;
+            moveY = 0;
+        }
+
         if (isGrounded && playerVelocity.y < 0)
             playerVelocity.y = 0f;
 

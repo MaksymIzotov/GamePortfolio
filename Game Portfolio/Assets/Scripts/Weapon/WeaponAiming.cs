@@ -23,6 +23,7 @@ public class WeaponAiming : MonoBehaviour
     void Update()
     {
         if (info.weaponState == WeaponInfo.State.PICKUP) { return; }
+        if (InGameUIManager.Instance.state == InGameUIManager.UISTATE.PAUSE) { return; }
 
         HandleInput();
         UpdateLocation();
@@ -46,7 +47,6 @@ public class WeaponAiming : MonoBehaviour
             isMoving = true;
             return;
         }
-        Debug.Log(isMoving);
 
         if (Input.GetKey(InputManager.Instance.Aim))
             target = aimPosition;
@@ -54,7 +54,7 @@ public class WeaponAiming : MonoBehaviour
             target = hipPosition;
 
         if (Input.GetKeyDown(InputManager.Instance.Aim) || Input.GetKeyUp(InputManager.Instance.Aim))
-            isMoving = true;
+            isMoving = true; 
     }
 
     public void AfterReloadMovingState()

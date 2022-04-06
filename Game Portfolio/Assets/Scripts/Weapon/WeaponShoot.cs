@@ -36,6 +36,7 @@ public class WeaponShoot : MonoBehaviour
     private void Update()
     {
         if (info.weaponState == WeaponInfo.State.PICKUP) { return; }
+        if (InGameUIManager.Instance.state == InGameUIManager.UISTATE.PAUSE) { return; }
 
         HandleInput();
     }

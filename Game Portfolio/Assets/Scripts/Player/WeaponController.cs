@@ -26,8 +26,9 @@ public class WeaponController : MonoBehaviour
     private void Update()
     {
         if (!pv.IsMine) { return; }
+        if (InGameUIManager.Instance.state == InGameUIManager.UISTATE.PAUSE) { return; }
 
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
             ChangeWeapon(0, false);
         if (Input.GetKeyDown(KeyCode.Alpha2))
             ChangeWeapon(1, false);
@@ -79,8 +80,9 @@ public class WeaponController : MonoBehaviour
         {
             if(inventory[i] != null)
             {
+                int itemName = Random.Range(0, 1000000);
                 Vector3 torque = new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
-                GetComponent<PhotonView>().RPC("RPC_DropItem", RpcTarget.All, inventory[i].GetComponent<ItemsInfo>().index, transform.position, transform.rotation, torque);
+                GetComponent<PhotonView>().RPC("RPC_DropItem", RpcTarget.All, inventory[i].GetComponent<ItemsInfo>().index, transform.position, transform.rotation, torque, itemName);
             }
         }
     }
