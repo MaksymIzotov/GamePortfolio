@@ -96,6 +96,9 @@ public class Launcher : MonoBehaviourPunCallbacks
 	public void StartGame()
 	{
 		RoomManager.Instance.mode = (RoomManager.Gamemode)gamemodeDropdown.value;
+		if (PhotonNetwork.IsMasterClient)
+			PhotonNetwork.CurrentRoom.IsVisible = false;
+
 		PhotonNetwork.LoadLevel(1);
 	}
 
