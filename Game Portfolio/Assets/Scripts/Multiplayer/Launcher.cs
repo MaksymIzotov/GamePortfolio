@@ -11,6 +11,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 	public static Launcher Instance;
 
 	[SerializeField] TMP_InputField roomNameInputField;
+	[SerializeField] TMP_InputField nickNameInputField;
 	[SerializeField] TMP_Text errorText;
 	[SerializeField] TMP_Text roomNameText;
 	[SerializeField] Transform roomListContent;
@@ -28,6 +29,9 @@ public class Launcher : MonoBehaviourPunCallbacks
 	{
 		Debug.Log("Connecting to Master");
 		PhotonNetwork.ConnectUsingSettings();
+
+		if (!string.IsNullOrEmpty(PhotonNetwork.NickName))
+			nickNameInputField.text = PhotonNetwork.NickName;
 	}
 
 	public override void OnConnectedToMaster()
@@ -41,8 +45,6 @@ public class Launcher : MonoBehaviourPunCallbacks
 	{
 		MenuManager.Instance.OpenMenu("main");
 		Debug.Log("Joined Lobby");
-
-		PhotonNetwork.NickName = "Player " + Random.Range(0, 1000).ToString("0000");
 	}
 
 	public void CreateRoom()
@@ -51,6 +53,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 		{
 			return;
 		}
+		SetNickname();
 		PhotonNetwork.CreateRoom(roomNameInputField.text);
 		MenuManager.Instance.OpenMenu("loading");
 	}
@@ -100,6 +103,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
 	public void JoinRoom(RoomInfo info)
 	{
+		SetNickname();
 		PhotonNetwork.JoinRoom(info.Name);
 		MenuManager.Instance.OpenMenu("loading");
 	}
@@ -132,5 +136,13 @@ public class Launcher : MonoBehaviourPunCallbacks
 	public void ExitGame()
     {
 		Application.Quit();
+	}
+
+	void SetNickname()
+	{
+		if (string.IsNullOrEmpty(nickNameInputField.text))
+			PhotonNetwork.NickName = "Player " + Random.Range(0, 1000).ToString("0000");
+		else
+			PhotonNetwork.NickName = nickNameInputField.text;
 	}
 }
