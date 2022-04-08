@@ -5,7 +5,8 @@ using System.IO;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
-	public static RoomManager Instance;
+    #region Singleton Init
+    public static RoomManager Instance;
 
 	void Awake()
 	{
@@ -16,9 +17,24 @@ public class RoomManager : MonoBehaviourPunCallbacks
 		}
 		DontDestroyOnLoad(gameObject);
 		Instance = this;
+    }
+	#endregion
+
+	public enum Gamemode
+	{
+		DEATHMATCH = 0,
+		BR = 1
 	}
 
-	public override void OnEnable()
+	public Gamemode mode;
+	private PhotonView pv;
+
+    private void Start()
+    {
+		pv = GetComponent<PhotonView>();
+    }
+
+    public override void OnEnable()
 	{
 		base.OnEnable();
 		SceneManager.sceneLoaded += OnSceneLoaded;
@@ -36,5 +52,16 @@ public class RoomManager : MonoBehaviourPunCallbacks
 		{
 			PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
 		}
+	}
+
+	public void SyncGamemode_RPC()
+	{
+		pv.RPC("SyncGamemode", RpcTarget.All, Launcher.Instance.gamemodeDropdown.value);
+	}
+
+	[PunRPC]
+	private void SyncGamemode(int value)
+	{
+		Launcher.Instance.gamemodeDropdown.value = value;
 	}
 }

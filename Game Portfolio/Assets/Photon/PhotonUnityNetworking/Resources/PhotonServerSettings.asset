@@ -45,6 +45,7 @@ MonoBehaviour:
   - DestroyGORPC
   - DestroyGO_RPC
   - RPC_DropItem
+  - SyncGamemode
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 0
