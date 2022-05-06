@@ -62,6 +62,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         currentHeight = cc.height;
         speed = 0;
+
+        //Debug
+        //Time.timeScale = 0.1f;
     }
 
     private void FixedUpdate()

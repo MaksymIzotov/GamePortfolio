@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour
     {
         if (collision.transform.parent == null)
         {
-            CreateHitPoint();
+            //CreateHitPoint();
 
             Destroy(gameObject);
 
@@ -31,7 +31,7 @@ public class Bullet : MonoBehaviour
         }
 
 
-        CreateHitPoint();
+        //CreateHitPoint();
 
         Destroy(gameObject);
     }
